@@ -9,9 +9,9 @@ calls `controlplane_identity.configuration.configure_identity(settings)` before
 using configured JWT or API-key operations. The settings object implements
 `IdentitySettings`; existing secret rejection, audience/client allowlists and
 host-setup purpose checks are preserved. Unconfigured operations fail rather than
-using credential defaults. The legacy `api.core.config` performs this binding
+using credential defaults. The `controlplane_api.config` (also aliased as `api.core.config`) performs this binding
 for current services.
 
 Legacy modules alias the shared implementation, preserving module monkeypatches,
 validator caches and callers that still use `api.*`. Public source contracts use
-the workspace's 0.9.0 train. No public publication is performed here.
+the workspace's 0.10.0 train. No public publication is performed here.
