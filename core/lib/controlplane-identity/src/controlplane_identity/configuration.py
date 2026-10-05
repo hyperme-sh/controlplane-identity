@@ -2,6 +2,9 @@
 
 from typing import Protocol
 
+# Fixed compatibility marker for sessions issued before smoke capability extraction.
+LEGACY_SMOKE_SESSION_CLAIM = "hypermesh_smoke"
+
 
 class IdentitySettings(Protocol):
     smoke_session_claim: str
