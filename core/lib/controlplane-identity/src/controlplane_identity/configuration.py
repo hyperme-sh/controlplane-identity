@@ -4,6 +4,7 @@ from typing import Protocol
 
 
 class IdentitySettings(Protocol):
+    smoke_session_claim: str
     keycloak_jwks_url: str | None
     keycloak_issuer: str | None
     keycloak_client_id: str
