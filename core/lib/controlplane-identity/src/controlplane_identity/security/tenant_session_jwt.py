@@ -13,12 +13,20 @@ from typing import Any
 import jwt
 from jwt import InvalidTokenError
 
-from controlplane_identity.configuration import settings
+from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings
 
 ISSUER = "https://panopticon.internal/tenant-session"
 ALG = "HS256"
 TTL_SECONDS = 900
 PANOPTICON_AUTH = "tenant_session"
+
+
+def is_smoke_session(claims: dict[str, Any] | None) -> bool:
+    """Classify verified session claims independently of deployment configuration."""
+    return isinstance(claims, dict) and (
+        claims.get("smoke_session") is True
+        or claims.get(LEGACY_SMOKE_SESSION_CLAIM) is True
+    )
 
 
 def mint_tenant_session_jwt(
@@ -86,8 +94,12 @@ def mint_tenant_session_jwt(
         payload["preferred_username"] = str(claims["preferred_username"])
     if claims.get("amr") is not None:
         payload["amr"] = claims["amr"]
-    if claims.get("hypermesh_smoke") is True:
-        payload["hypermesh_smoke"] = True
+    if is_smoke_session(claims) or claims.get(settings.smoke_session_claim) is True:
+        # Authorization is invariant. The configured marker is only compatibility
+        # metadata; older API-key processes still see their fixed legacy marker.
+        payload["smoke_session"] = True
+        payload[LEGACY_SMOKE_SESSION_CLAIM] = True
+        payload[settings.smoke_session_claim] = True
     secret = settings.usable_api_key_exchange_secret()
     if not secret:
         raise RuntimeError("API_KEY_EXCHANGE_JWT_SECRET is unset or is a published default")

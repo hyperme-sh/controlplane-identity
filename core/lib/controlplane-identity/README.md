@@ -14,4 +14,4 @@ for current services.
 
 Legacy modules alias the shared implementation, preserving module monkeypatches,
 validator caches and callers that still use `api.*`. Public source contracts use
-the workspace's 0.8.0 train. No public publication is performed here.
+the workspace's 0.9.0 train. No public publication is performed here.
