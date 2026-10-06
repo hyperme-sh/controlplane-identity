@@ -42,3 +42,10 @@ consumers are unchanged in this foundation slice; WP-CRY-01 remains in progress.
 
 The new public module intentionally advances the shared source contract train to
 0.11.0. Service versions and hm1/v=1 wire contracts are unchanged.
+
+An exact EIP-7702 delegation designator (`0xef0100` followed by a 20-byte
+address) permits personal-sign recovery for the account's own key. If recovery
+does not match, verification falls back to ERC-1271 on the account address, not
+the delegate address. Other nonempty code always uses ERC-1271. ECDSA recovery
+accepts only low-s signatures with wallet-standard v=27/28; contract proofs retain
+their original bytes and contract-defined validation rules.

@@ -16,6 +16,7 @@ __all__ = ["BaseWalletVerifier", "CounterfactualValidator", "WalletProofError"]
 _BASE_CHAINS = frozenset({8453, 84532})
 _ERC6492_SUFFIX = bytes.fromhex("6492" * 16)
 _ERC1271_MAGIC = bytes.fromhex("1626ba7e")
+_SECP256K1_ORDER = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 
 
 class WalletProofError(ValueError):
@@ -101,6 +102,19 @@ class BaseWalletVerifier:
             raise WalletProofError("Noncanonical Base RPC quantity")
         return result
 
+    @staticmethod
+    def _ecdsa_matches(signable: Any, signature: bytes, signer: str) -> bool:
+        if len(signature) != 65:
+            return False
+        # Canonical recovery encoding: low-s, and v as 27/28 (wallet standard).
+        s = int.from_bytes(signature[32:64], "big")
+        if not 0 < s <= _SECP256K1_ORDER // 2 or signature[64] not in (27, 28):
+            return False
+        try:
+            return Account.recover_message(signable, signature=signature) == signer
+        except (BadSignature, ValueError, TypeError):
+            return False
+
     async def verify_personal_signature(
         self, *, address: str, message: str, signature: bytes, chain_id: int
     ) -> str:
@@ -153,14 +167,14 @@ class BaseWalletVerifier:
                     expected = (1).to_bytes(32, "big")
                 else:
                     code = self._bytes(await self._rpc("eth_getCode", [signer, block]))
-                    if not code:
-                        if (
-                            len(signature) != 65
-                            or Account.recover_message(signable, signature=signature)
-                            != signer
-                        ):
+                    delegated = len(code) == 23 and code.startswith(b"\xef\x01\x00")
+                    if not code or delegated:
+                        if self._ecdsa_matches(signable, signature, signer):
+                            return signer
+                        if not code:
                             raise WalletProofError("Invalid EOA signature")
-                        return signer
+                        # A delegated account can authorize another key via ERC-1271.
+                        # Call the account, preserving its storage and execution context.
                     data = _ERC1271_MAGIC + encode(
                         ["bytes32", "bytes"], [digest, signature]
                     )
