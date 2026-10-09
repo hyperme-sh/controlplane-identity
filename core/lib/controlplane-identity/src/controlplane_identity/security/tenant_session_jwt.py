@@ -92,6 +92,8 @@ def mint_tenant_session_jwt(
         payload["email"] = str(email)
     if claims.get("preferred_username"):
         payload["preferred_username"] = str(claims["preferred_username"])
+    if claims.get("account_type") in {"human", "service"}:
+        payload["account_type"] = claims["account_type"]
     if claims.get("amr") is not None:
         payload["amr"] = claims["amr"]
     if is_smoke_session(claims) or claims.get(settings.smoke_session_claim) is True:
