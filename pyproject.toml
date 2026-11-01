@@ -10,3 +10,14 @@ dependencies = ["fastapi>=0.135.0", "httpx>=0.28.1", "pyjwt[crypto]>=2.10.1", "e
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/controlplane_identity"]
+
+[dependency-groups]
+dev = ["pytest>=8.4.0", "pytest-asyncio>=1.2.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/scripts", "/contracts", "/docs", "/pyproject.toml", "/uv.lock", "/README.md", "/SOURCE-MANIFEST.json", "/EXTRACTION.json"]

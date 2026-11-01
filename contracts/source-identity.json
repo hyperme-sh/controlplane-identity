@@ -1,0 +1,1091 @@
+{
+  "import_name": "controlplane_identity",
+  "modules": {
+    "api.common.internal_token": {
+      "INTERNAL_TOKEN_HEADER": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.internal_token.INTERNAL_TOKEN_HEADER"
+      },
+      "internal_token_matches": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.internal_token.internal_token_matches"
+      },
+      "provided_internal_token": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.internal_token.provided_internal_token"
+      },
+      "request_has_internal_token": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.internal_token.request_has_internal_token"
+      }
+    },
+    "api.common.person_bind": {
+      "RETARGET_METADATA_KEYS": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.RETARGET_METADATA_KEYS"
+      },
+      "can_checkout_from_claims": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.can_checkout_from_claims"
+      },
+      "can_checkout_from_me": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.can_checkout_from_me"
+      },
+      "client_metadata_without_retarget": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.client_metadata_without_retarget"
+      },
+      "groups_from_claims": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.groups_from_claims"
+      },
+      "roles_from_claims": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.roles_from_claims"
+      },
+      "uuid_from_sub": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.person_bind.uuid_from_sub"
+      }
+    },
+    "api.common.portal_controls": {
+      "CANONICAL_GROUPS": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.CANONICAL_GROUPS"
+      },
+      "GROUP_BILLING": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.GROUP_BILLING"
+      },
+      "GROUP_HOST": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.GROUP_HOST"
+      },
+      "GROUP_IR": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.GROUP_IR"
+      },
+      "GROUP_IR_EXPORT": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.GROUP_IR_EXPORT"
+      },
+      "GROUP_RENTER": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.GROUP_RENTER"
+      },
+      "ORG_ADMIN_ROLES": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.ORG_ADMIN_ROLES"
+      },
+      "PortalControls": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.PortalControls"
+      },
+      "ROLE_AS_GROUP": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.ROLE_AS_GROUP"
+      },
+      "collect_groups": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.collect_groups"
+      },
+      "evaluate_portal_controls": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.evaluate_portal_controls"
+      },
+      "is_org_admin": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.is_org_admin"
+      },
+      "normalize_group_name": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.portal_controls.normalize_group_name"
+      }
+    },
+    "api.infrastructure.externals.api_keys_client": {
+      "validate_api_key_remote": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.api_keys_client.validate_api_key_remote"
+      }
+    },
+    "api.infrastructure.security": {},
+    "api.infrastructure.security.api_key_exchange_jwt": {
+      "ALG": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.api_key_exchange_jwt.ALG"
+      },
+      "ISSUER": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.api_key_exchange_jwt.ISSUER"
+      },
+      "TTL_SECONDS": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.api_key_exchange_jwt.TTL_SECONDS"
+      },
+      "mint_api_key_session_jwt": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.api_key_exchange_jwt.mint_api_key_session_jwt"
+      },
+      "try_decode_api_key_session_jwt": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.api_key_exchange_jwt.try_decode_api_key_session_jwt"
+      }
+    },
+    "api.infrastructure.security.keycloak_jwt": {
+      "KeycloakJWTValidator": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.keycloak_jwt.KeycloakJWTValidator"
+      },
+      "get_keycloak_jwt_validator": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.keycloak_jwt.get_keycloak_jwt_validator"
+      },
+      "logger": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.keycloak_jwt.logger"
+      }
+    },
+    "api.infrastructure.security.tenant_session_jwt": {
+      "ALG": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.ALG"
+      },
+      "HOST_SETUP_AUDIENCE": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.HOST_SETUP_AUDIENCE"
+      },
+      "HOST_SETUP_ISSUER": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.HOST_SETUP_ISSUER"
+      },
+      "ISSUER": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.ISSUER"
+      },
+      "PANOPTICON_AUTH": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.PANOPTICON_AUTH"
+      },
+      "TTL_SECONDS": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.TTL_SECONDS"
+      },
+      "mint_host_setup_session": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.mint_host_setup_session"
+      },
+      "mint_tenant_session_jwt": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.mint_tenant_session_jwt"
+      },
+      "try_decode_host_setup_session": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.try_decode_host_setup_session"
+      },
+      "try_decode_tenant_session_jwt": {
+        "kind": "re-export",
+        "origin": "controlplane_identity.security.tenant_session_jwt.try_decode_tenant_session_jwt"
+      }
+    },
+    "controlplane_identity": {},
+    "controlplane_identity.api_keys_client": {
+      "validate_api_key_remote": {
+        "decorators": [],
+        "kind": "async-function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "base_url"
+          },
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "api_key"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          },
+          {
+            "annotation": "float",
+            "default": "2d71813955867763273c44ce918b4482e9dcc8706a147ad9ad28139673926d5b",
+            "kind": "keyword-only",
+            "name": "timeout_s"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      }
+    },
+    "controlplane_identity.configuration": {
+      "IdentitySettings": {
+        "bases": [
+          "Protocol"
+        ],
+        "decorators": [],
+        "kind": "class",
+        "members": {
+          "keycloak_allowed_audience_set": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "set[str]"
+          },
+          "keycloak_allowed_azp_set": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "set[str]"
+          },
+          "keycloak_client_id": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "keycloak_issuer": {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "attribute"
+          },
+          "keycloak_jwks_request_host": {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "attribute"
+          },
+          "keycloak_jwks_url": {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "attribute"
+          },
+          "smoke_session_claim": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "usable_api_key_exchange_secret": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "str | None"
+          },
+          "usable_api_keys_internal_token": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "str | None"
+          }
+        }
+      },
+      "LEGACY_SMOKE_SESSION_CLAIM": {
+        "annotation": null,
+        "default": "177da9c210b8c8d258b33c2ca8de7918161ed27394317ae10f14a1577bdd9e02",
+        "kind": "attribute"
+      },
+      "configure_identity": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "IdentitySettings",
+            "default": null,
+            "kind": "positional",
+            "name": "configuration"
+          }
+        ],
+        "returns": "None"
+      },
+      "settings": {
+        "annotation": null,
+        "default": "739d069b28cf7b2576e9df713bf12137cd996a29ce466f559167e0859472cef5",
+        "kind": "attribute"
+      }
+    },
+    "controlplane_identity.internal_token": {
+      "INTERNAL_TOKEN_HEADER": {
+        "annotation": null,
+        "default": "9fec4bd0fe927ed55bb663af8f7feccbf44f9086b1bee992c4bd434bbdd07c0b",
+        "kind": "attribute"
+      },
+      "internal_token_matches": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "provided"
+          },
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "expected"
+          }
+        ],
+        "returns": "bool"
+      },
+      "provided_internal_token": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "Request",
+            "default": null,
+            "kind": "positional",
+            "name": "request"
+          }
+        ],
+        "returns": "str | None"
+      },
+      "request_has_internal_token": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "Request",
+            "default": null,
+            "kind": "positional",
+            "name": "request"
+          },
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "expected"
+          }
+        ],
+        "returns": "bool"
+      }
+    },
+    "controlplane_identity.person_bind": {
+      "RETARGET_METADATA_KEYS": {
+        "annotation": null,
+        "default": "878b9c5a36169d2fd146d689ed58af3ef8a595ef2d0db08b328379e9bc8ed347",
+        "kind": "attribute"
+      },
+      "can_checkout_from_claims": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "claims"
+          }
+        ],
+        "returns": "bool"
+      },
+      "can_checkout_from_me": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "list[str] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "roles"
+          },
+          {
+            "annotation": "list[str] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "groups"
+          }
+        ],
+        "returns": "bool"
+      },
+      "client_metadata_without_retarget": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, str] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "metadata"
+          }
+        ],
+        "returns": "dict[str, str] | None"
+      },
+      "groups_from_claims": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "claims"
+          }
+        ],
+        "returns": "list[str]"
+      },
+      "roles_from_claims": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "claims"
+          }
+        ],
+        "returns": "list[str]"
+      },
+      "uuid_from_sub": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "sub"
+          }
+        ],
+        "returns": "uuid.UUID | None"
+      }
+    },
+    "controlplane_identity.portal_controls": {
+      "CANONICAL_GROUPS": {
+        "annotation": null,
+        "default": "78caa073d12240c7312fff2844e560292fa648e86158c0b36a2a58b9d59565d8",
+        "kind": "attribute"
+      },
+      "GROUP_BILLING": {
+        "annotation": null,
+        "default": "38e98988154033b9d590bbf9f366a52c3a1de7225c231e63bf8d6a04fbec0724",
+        "kind": "attribute"
+      },
+      "GROUP_HOST": {
+        "annotation": null,
+        "default": "2954645e458fba3ec86e350bd688ccf31fc769dc7cac621ef2f0c47c0effb68a",
+        "kind": "attribute"
+      },
+      "GROUP_IR": {
+        "annotation": null,
+        "default": "43aa97462820cdb8297ca7c83b2250ae8cc02af749f9609879516f67000786f5",
+        "kind": "attribute"
+      },
+      "GROUP_IR_EXPORT": {
+        "annotation": null,
+        "default": "9f25d0e47b5dd90b28f34fc7b96abd35845c98aac7e6434c296f37c194457f07",
+        "kind": "attribute"
+      },
+      "GROUP_RENTER": {
+        "annotation": null,
+        "default": "85af317ca9973686be3335248330c6fe97395982d090ad8435ce4ed4c3e74de4",
+        "kind": "attribute"
+      },
+      "ORG_ADMIN_ROLES": {
+        "annotation": null,
+        "default": "5da043643f95dafdb850f1a4b624afd8e6ac5ee1278b4a4057e832cd634ad14c",
+        "kind": "attribute"
+      },
+      "PortalControls": {
+        "bases": [],
+        "decorators": [
+          "f83a6e4896fbdf95f4fad37ac432c87b2adea146299263ef6326e397bccb7fed"
+        ],
+        "kind": "class",
+        "members": {
+          "as_dict": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
+          "can_assign_group": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_checkout": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_export_ir_receipts": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_invite_members": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_mint_keys": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_see_host_status": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_see_leases": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "can_use_ir_door": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          },
+          "groups": {
+            "annotation": "tuple[str, ...]",
+            "default": null,
+            "kind": "attribute"
+          },
+          "org_admin": {
+            "annotation": "bool",
+            "default": null,
+            "kind": "attribute"
+          }
+        }
+      },
+      "ROLE_AS_GROUP": {
+        "annotation": null,
+        "default": "9bd2b5a2a07ade51c78d8846fd6ea7e8e07ff6eec61d800bfba1973a1f600e53",
+        "kind": "attribute"
+      },
+      "collect_groups": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "Iterable[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "positional",
+            "name": "roles"
+          },
+          {
+            "annotation": "Iterable[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "positional",
+            "name": "group_names"
+          }
+        ],
+        "returns": "frozenset[str]"
+      },
+      "evaluate_portal_controls": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "Iterable[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "positional",
+            "name": "roles"
+          },
+          {
+            "annotation": "Iterable[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "positional",
+            "name": "group_names"
+          }
+        ],
+        "returns": "PortalControls"
+      },
+      "is_org_admin": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "Iterable[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "positional",
+            "name": "roles"
+          }
+        ],
+        "returns": "bool"
+      },
+      "normalize_group_name": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "raw"
+          }
+        ],
+        "returns": "str | None"
+      }
+    },
+    "controlplane_identity.security": {},
+    "controlplane_identity.security.api_key_exchange_jwt": {
+      "ALG": {
+        "annotation": null,
+        "default": "54fb4ab65aa6891107497011f0652e316f8ef8dd5468d4806632641ac2a2cc56",
+        "kind": "attribute"
+      },
+      "ISSUER": {
+        "annotation": null,
+        "default": "453e41b3414862da8de33a09683804fc5e90d1731c8ff51feeccf98cf82c0e14",
+        "kind": "attribute"
+      },
+      "TTL_SECONDS": {
+        "annotation": null,
+        "default": "d587121780bfc8bd32982ad22b12727a86862bfe25a116f32ce558666129e5ac",
+        "kind": "attribute"
+      },
+      "mint_api_key_session_jwt": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "key_record_id"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          },
+          {
+            "annotation": "list[str]",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "scopes"
+          },
+          {
+            "annotation": "str | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "keyword-only",
+            "name": "purpose"
+          }
+        ],
+        "returns": "str"
+      },
+      "try_decode_api_key_session_jwt": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      }
+    },
+    "controlplane_identity.security.keycloak_jwt": {
+      "KeycloakJWTValidator": {
+        "bases": [],
+        "decorators": [],
+        "kind": "class",
+        "members": {
+          "__init__": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "jwks_url"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "issuer"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "client_id"
+              },
+              {
+                "annotation": "str | None",
+                "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+                "kind": "positional",
+                "name": "jwks_request_host"
+              }
+            ],
+            "returns": "None"
+          },
+          "validate": {
+            "decorators": [],
+            "kind": "async-function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
+          "validate_host_setup": {
+            "decorators": [],
+            "kind": "async-function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
+          "validate_host_setup_sync": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
+          "validate_sync": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              }
+            ],
+            "returns": "dict[str, object]"
+          }
+        }
+      },
+      "get_keycloak_jwt_validator": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [],
+        "returns": "KeycloakJWTValidator"
+      },
+      "logger": {
+        "annotation": null,
+        "default": "25ebc2ac7900ccd24c4f9f12ed5711f7b0d22654391187159e4927a947f30f65",
+        "kind": "attribute"
+      }
+    },
+    "controlplane_identity.security.tenant_session_jwt": {
+      "ALG": {
+        "annotation": null,
+        "default": "54fb4ab65aa6891107497011f0652e316f8ef8dd5468d4806632641ac2a2cc56",
+        "kind": "attribute"
+      },
+      "HOST_SETUP_AUDIENCE": {
+        "annotation": null,
+        "default": "4a7218870448058ceaf882e63257bf6c22f9ed495e686b1b125b58e3af4668f2",
+        "kind": "attribute"
+      },
+      "HOST_SETUP_ISSUER": {
+        "annotation": null,
+        "default": "a4b8789ad8aee0efe50720d193973b9b79a940d1bf8fb45e16f58b3385716efa",
+        "kind": "attribute"
+      },
+      "ISSUER": {
+        "annotation": null,
+        "default": "360877c1e71b8dccde70514eb408d503a2078f3670b0ed1fd2210f2bebd2da33",
+        "kind": "attribute"
+      },
+      "PANOPTICON_AUTH": {
+        "annotation": null,
+        "default": "66283f515cb42c0196de11ad9a1b6e540b183fb734f161f18240dfdda42cdafd",
+        "kind": "attribute"
+      },
+      "TTL_SECONDS": {
+        "annotation": null,
+        "default": "b1059f7964b49f1e4edbb89d397d129315769b533786bd793fccd5198ae13eaa",
+        "kind": "attribute"
+      },
+      "is_smoke_session": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any] | None",
+            "default": null,
+            "kind": "positional",
+            "name": "claims"
+          }
+        ],
+        "returns": "bool"
+      },
+      "mint_host_setup_session": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any]",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "claims"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          }
+        ],
+        "returns": "str"
+      },
+      "mint_tenant_session_jwt": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict[str, Any]",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "claims"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          },
+          {
+            "annotation": "list[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "keyword-only",
+            "name": "extra_roles"
+          },
+          {
+            "annotation": "list[str] | None",
+            "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+            "kind": "keyword-only",
+            "name": "extra_permissions"
+          }
+        ],
+        "returns": "str"
+      },
+      "try_decode_host_setup_session": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      },
+      "try_decode_tenant_session_jwt": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      }
+    },
+    "controlplane_identity.wallet": {
+      "BaseWalletVerifier": {
+        "bases": [],
+        "decorators": [],
+        "kind": "class",
+        "members": {
+          "__init__": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "chain_id"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "rpc_url"
+              },
+              {
+                "annotation": "httpx.AsyncClient",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "client"
+              },
+              {
+                "annotation": "CounterfactualValidator | None",
+                "default": "9284468224b1c3c93e7ba3377065c6230aeb41b3b91844010564bcfbffc48e70",
+                "kind": "keyword-only",
+                "name": "counterfactual_validator"
+              }
+            ],
+            "returns": "None"
+          },
+          "verify_personal_signature": {
+            "decorators": [],
+            "kind": "async-function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "address"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "message"
+              },
+              {
+                "annotation": "bytes",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "signature"
+              },
+              {
+                "annotation": "int",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "chain_id"
+              }
+            ],
+            "returns": "str"
+          }
+        }
+      },
+      "CounterfactualValidator": {
+        "bases": [],
+        "decorators": [
+          "222adf1e9de2fca86013c4c3166e9d7b4f44f14fff01531f7a30489ce24d29b5"
+        ],
+        "kind": "class",
+        "members": {
+          "address": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "code_hash": {
+            "annotation": "bytes",
+            "default": null,
+            "kind": "attribute"
+          }
+        }
+      },
+      "WalletProofError": {
+        "bases": [
+          "ValueError"
+        ],
+        "decorators": [],
+        "kind": "class",
+        "members": {}
+      }
+    }
+  },
+  "version": "0.23.0"
+}
