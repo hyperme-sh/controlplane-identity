@@ -1,8 +1,8 @@
 # controlplane-identity
 
 Shared internal-token comparison, person/portal permissions, API-key validation,
-Keycloak validation and purpose-bound session tokens. Public modules are declared
-in `scripts/import_boundaries.json` and `scripts/ownership.json`.
+Keycloak validation and purpose-bound session tokens. Public module contracts are
+recorded in `contracts/identity.json`.
 
 The package has no dependency on `api` or product implementations. An application
 calls `controlplane_identity.configuration.configure_identity(settings)` before
@@ -13,10 +13,10 @@ using credential defaults. The `controlplane_api.config` (also aliased as `api.c
 for current services.
 
 Legacy modules alias the shared implementation, preserving module monkeypatches,
-validator caches and callers that still use `api.*`. Public source contracts use
-the workspace's 0.10.0 train. No public publication is performed here.
+validator caches and callers that still use `api.*`. These aliases are supplied
+by the separate compatibility package and are not part of this distribution.
 
-## Base wallet proof verifier (WP-CRY-01 foundation)
+## Base wallet proof verifier
 
 `controlplane_identity.wallet.BaseWalletVerifier` verifies EIP-191 personal-sign
 proofs against one operator-configured Base chain: 8453 or 84532. It checks the RPC
@@ -37,11 +37,7 @@ Services own challenge construction, SIWE parsing/domain/URI/time checks,
 single-use nonce consumption, subject/purpose binding and verified-address session
 or payout persistence. They must validate the signed challenge's chain against the
 configured chain before calling the verifier. A successful signature is evidence
-of wallet control, not a session or payout authorization. Existing auth and payout
-consumers are unchanged in this foundation slice; WP-CRY-01 remains in progress.
-
-The new public module intentionally advances the shared source contract train to
-0.11.0. Service versions and hm1/v=1 wire contracts are unchanged.
+of wallet control, not a session or payout authorization.
 
 An exact EIP-7702 delegation designator (`0xef0100` followed by a 20-byte
 address) permits personal-sign recovery for the account's own key. If recovery

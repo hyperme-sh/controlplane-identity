@@ -20,4 +20,4 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/tests", "/scripts", "/contracts", "/docs", "/pyproject.toml", "/uv.lock", "/README.md", "/SOURCE-MANIFEST.json", "/EXTRACTION.json"]
+include = ["/src", "/tests", "/scripts", "/contracts", "/docs", "/pyproject.toml", "/uv.lock", "/README.md"]
