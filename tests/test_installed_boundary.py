@@ -8,7 +8,7 @@ import uuid
 
 
 def test_public_modules_import_without_legacy_packages():
-    contract = json.loads((Path(__file__).parents[1] / 'contracts/source-identity.json').read_text())
+    contract = json.loads((Path(__file__).parents[1] / 'contracts/identity.json').read_text())
     for name in contract['modules']:
         if name.startswith('controlplane_identity'):
             importlib.import_module(name)
