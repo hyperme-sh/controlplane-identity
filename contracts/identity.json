@@ -1174,9 +1174,35 @@
         ],
         "returns": "dict[str, Any] | None"
       },
+      "try_decode_host_setup_session_async": {
+        "decorators": [],
+        "kind": "async-function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      },
       "try_decode_tenant_session_jwt": {
         "decorators": [],
         "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      },
+      "try_decode_tenant_session_jwt_async": {
+        "decorators": [],
+        "kind": "async-function",
         "parameters": [
           {
             "annotation": "str",

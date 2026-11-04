@@ -172,3 +172,99 @@ def test_trickling_retirement_authority_has_total_deadline(monkeypatch, authorit
     with pytest.raises(jwt.InvalidTokenError, match="authorization unavailable"):
         lifecycle.require_open_account({"sub": "person"})
     assert closed == [True]
+
+
+@pytest.mark.parametrize("kind", ["general", "host", "operator"])
+async def test_validator_executor_propagates_and_restores_offline_context(
+    authority, monkeypatch, kind
+):
+    validator = KeycloakJWTValidator(
+        jwks_url="https://issuer.example/jwks",
+        issuer="https://issuer.example",
+        client_id="client",
+    )
+
+    def validate(_token, **kwargs):
+        lifecycle.require_open_account({})
+        return {"verified": True}
+
+    monkeypatch.setattr(validator, "validate_sync", validate)
+    monkeypatch.setattr(validator, "validate_host_setup_sync", validate)
+    monkeypatch.setattr(validator, "validate_closure_operator_sync", validate)
+
+    async def call():
+        if kind == "operator":
+            return await validator.validate_closure_operator(
+                "fixture", client_ids=frozenset({"client"})
+            )
+        return await (
+            validator.validate_host_setup("fixture")
+            if kind == "host"
+            else validator.validate("fixture")
+        )
+
+    with lifecycle.offline_gateway_verification():
+        assert await call() == {"verified": True}
+    with pytest.raises(jwt.InvalidTokenError):
+        await call()
+
+
+@pytest.mark.parametrize("kind", ["tenant", "host"])
+async def test_async_session_entrypoint_checks_healthy_authority_without_blocking(
+    authority, monkeypatch, kind
+):
+    import asyncio
+
+    from controlplane_identity import configuration
+    from controlplane_identity.security import tenant_session_jwt as session
+
+    monkeypatch.setattr(
+        configuration,
+        "_configured",
+        SimpleNamespace(
+            usable_api_key_exchange_secret=lambda: (
+                "async-guard-test-signing-secret-32-chars!!"
+            ),
+            smoke_session_claim="smoke_session",
+        ),
+    )
+    tenant = uuid.uuid4()
+    claims = {
+        "sub": "owner",
+        "azp": "hypermesh-host-setup" if kind == "host" else "controlplane-frontend",
+    }
+    token = (
+        session.mint_host_setup_session
+        if kind == "host"
+        else session.mint_tenant_session_jwt
+    )(claims=claims, tenant_id=tenant)
+    original = httpx.AsyncClient
+
+    loop = asyncio.get_running_loop()
+    progress = []
+
+    async def respond(_):
+        from concurrent.futures import Future
+
+        served = Future()
+
+        def serve_on_caller_loop():
+            progress.append(True)
+            served.set_result(None)
+
+        loop.call_soon_threadsafe(serve_on_caller_loop)
+        await asyncio.wrap_future(served)
+        return httpx.Response(200, json={"blocked": False})
+
+    monkeypatch.setattr(
+        lifecycle.httpx,
+        "AsyncClient",
+        lambda **kwargs: original(transport=httpx.MockTransport(respond), **kwargs),
+    )
+    decode = (
+        session.try_decode_host_setup_session_async
+        if kind == "host"
+        else session.try_decode_tenant_session_jwt_async
+    )
+    assert (await decode(token))["sub"] == "owner"
+    assert progress == [True]

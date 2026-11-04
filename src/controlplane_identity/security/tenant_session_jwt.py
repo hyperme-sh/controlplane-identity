@@ -6,6 +6,7 @@ Same shared secret as the API-key exchange token; different issuer and
 
 from __future__ import annotations
 
+import asyncio
 import time
 import uuid
 from typing import Any
@@ -176,3 +177,13 @@ def try_decode_host_setup_session(token: str) -> dict[str, Any] | None:
     except InvalidTokenError:
         return None
     return payload
+
+
+async def try_decode_tenant_session_jwt_async(token: str) -> dict[str, Any] | None:
+    """Validate a tenant session without blocking the caller's event loop."""
+    return await asyncio.to_thread(try_decode_tenant_session_jwt, token)
+
+
+async def try_decode_host_setup_session_async(token: str) -> dict[str, Any] | None:
+    """Validate a setup-only session with the caller's verification context."""
+    return await asyncio.to_thread(try_decode_host_setup_session, token)

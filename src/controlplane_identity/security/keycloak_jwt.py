@@ -131,9 +131,7 @@ class KeycloakJWTValidator:
     async def validate_closure_operator(
         self, token: str, *, client_ids: frozenset[str]
     ) -> dict[str, object]:
-        return await asyncio.get_running_loop().run_in_executor(
-            None, lambda: self.validate_closure_operator_sync(token, client_ids=client_ids)
-        )
+        return await asyncio.to_thread(self.validate_closure_operator_sync, token, client_ids=client_ids)
 
     def validate_host_setup_sync(self, token: str) -> dict[str, object]:
         """Validate the device client only for the dedicated setup exchange."""
@@ -149,13 +147,10 @@ class KeycloakJWTValidator:
         return payload
 
     async def validate_host_setup(self, token: str) -> dict[str, object]:
-        return await asyncio.get_running_loop().run_in_executor(
-            None, self.validate_host_setup_sync, token,
-        )
+        return await asyncio.to_thread(self.validate_host_setup_sync, token)
 
     async def validate(self, token: str) -> dict[str, object]:
-        loop = asyncio.get_running_loop()
-        return await loop.run_in_executor(None, self.validate_sync, token)
+        return await asyncio.to_thread(self.validate_sync, token)
 
 
 @lru_cache
