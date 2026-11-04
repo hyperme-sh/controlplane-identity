@@ -43,3 +43,18 @@ organization policy may shorten it). Expired evidence fails closed: validate a
 new main revision. The publisher verifies the run, source, workflow and artifact
 digest independently of release metadata. Repository immutable releases must be
 enabled. See the [shared release contract](https://github.com/hyperme-sh/.github/blob/7749591fccd30d46ba9b0adabe82114001c9d0de/actions/release-channel/README.md).
+
+## Account lifecycle authority
+
+The additive contract version 0.24 includes purpose-separated lifecycle service
+credentials, canonical tenant-bound denial digests, explicit offline gateway
+context and fail-closed retirement/permit/scope checks. Enforcement stays off
+unless ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED is explicitly true. Native Keycloak,
+tenant-session and host-setup validation consult retirement authority when enabled.
+A dedicated native closure operator grant requires the configured client list,
+spanopticon-account-closure audience and account:close role; ordinary application,
+API-key, worker and reader identities do not substitute for that authority.
+
+Package checks exercise these boundaries from source, installed wheel and rebuilt
+sdist. General interactive sign-in age policy is not changed by this adoption;
+the dedicated closure operator validation preserves its source age proof.

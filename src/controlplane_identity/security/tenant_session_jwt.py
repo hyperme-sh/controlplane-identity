@@ -13,6 +13,7 @@ from typing import Any
 import jwt
 from jwt import InvalidTokenError
 
+from controlplane_identity.account_lifecycle import require_open_account
 from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings
 
 ISSUER = "https://spanopticon.internal/tenant-session"
@@ -129,6 +130,10 @@ def try_decode_tenant_session_jwt(token: str) -> dict[str, Any] | None:
         return None
     if payload.get("azp") == "hypermesh-host-setup" or payload.get("spanopticon_auth") != SPANOPTICON_AUTH:
         return None
+    try:
+        require_open_account(payload)
+    except InvalidTokenError:
+        return None
     return payload
 
 
@@ -165,5 +170,9 @@ def try_decode_host_setup_session(token: str) -> dict[str, Any] | None:
     except InvalidTokenError:
         return None
     if payload.get("purpose") != "host_setup" or payload.get("azp") != HOST_SETUP_AUDIENCE:
+        return None
+    try:
+        require_open_account(payload)
+    except InvalidTokenError:
         return None
     return payload
