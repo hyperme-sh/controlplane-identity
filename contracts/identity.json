@@ -163,9 +163,9 @@
         "kind": "re-export",
         "origin": "controlplane_identity.security.tenant_session_jwt.ISSUER"
       },
-      "PANOPTICON_AUTH": {
+      "SPANOPTICON_AUTH": {
         "kind": "re-export",
-        "origin": "controlplane_identity.security.tenant_session_jwt.PANOPTICON_AUTH"
+        "origin": "controlplane_identity.security.tenant_session_jwt.SPANOPTICON_AUTH"
       },
       "TTL_SECONDS": {
         "kind": "re-export",
@@ -876,7 +876,7 @@
         "default": "360877c1e71b8dccde70514eb408d503a2078f3670b0ed1fd2210f2bebd2da33",
         "kind": "attribute"
       },
-      "PANOPTICON_AUTH": {
+      "SPANOPTICON_AUTH": {
         "annotation": null,
         "default": "66283f515cb42c0196de11ad9a1b6e540b183fb734f161f18240dfdda42cdafd",
         "kind": "attribute"

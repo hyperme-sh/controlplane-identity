@@ -1,7 +1,7 @@
 """HS256 JWT minted after a verified tenant switch (not Keycloak, not API-key).
 
 Same shared secret as the API-key exchange token; different issuer and
-``panopticon_auth`` so mint/consume cannot be confused with purpose grants.
+``spanopticon_auth`` so mint/consume cannot be confused with purpose grants.
 """
 
 from __future__ import annotations
@@ -15,10 +15,10 @@ from jwt import InvalidTokenError
 
 from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings
 
-ISSUER = "https://panopticon.internal/tenant-session"
+ISSUER = "https://spanopticon.internal/tenant-session"
 ALG = "HS256"
 TTL_SECONDS = 900
-PANOPTICON_AUTH = "tenant_session"
+SPANOPTICON_AUTH = "tenant_session"
 
 
 def is_smoke_session(claims: dict[str, Any] | None) -> bool:
@@ -67,9 +67,9 @@ def mint_tenant_session_jwt(
         "azp": str(claims.get("azp") or "controlplane-frontend"),
         "iat": now,
         "exp": now + TTL_SECONDS,
-        "panopticon_auth": PANOPTICON_AUTH,
+        "spanopticon_auth": SPANOPTICON_AUTH,
         "tenant_id": str(tenant_id),
-        "https://panopticon.dev/tenant_id": str(tenant_id),
+        "https://spanopticon.dev/tenant_id": str(tenant_id),
         "realm_access": {"roles": roles},
         "groups": groups_out,
         "scope": str(claims.get("scope") or "openid"),
@@ -127,12 +127,12 @@ def try_decode_tenant_session_jwt(token: str) -> dict[str, Any] | None:
         )
     except InvalidTokenError:
         return None
-    if payload.get("azp") == "hypermesh-host-setup" or payload.get("panopticon_auth") != PANOPTICON_AUTH:
+    if payload.get("azp") == "hypermesh-host-setup" or payload.get("spanopticon_auth") != SPANOPTICON_AUTH:
         return None
     return payload
 
 
-HOST_SETUP_ISSUER = "https://panopticon.internal/host-setup"
+HOST_SETUP_ISSUER = "https://spanopticon.internal/host-setup"
 HOST_SETUP_AUDIENCE = "hypermesh-host-setup"
 
 
