@@ -6,10 +6,12 @@ local durable revocations instead, preserving its offline ticket boundary.
 
 from __future__ import annotations
 
+import asyncio
 import contextlib
 import contextvars
 import hashlib
 import hmac
+import json
 import os
 import uuid
 from urllib.parse import urlparse
@@ -18,6 +20,33 @@ import httpx
 from jwt import InvalidTokenError
 
 _offline = contextvars.ContextVar("account_lifecycle_offline", default=False)
+
+
+_RPC_DEADLINE_SECONDS = 3
+
+
+async def _post_json(url: str, *, headers: dict, body: dict, max_bytes: int):
+    """Bound the complete RPC and refuse compressed or oversized authority data."""
+    async with asyncio.timeout(_RPC_DEADLINE_SECONDS):
+        async with httpx.AsyncClient(
+            timeout=3, follow_redirects=False, trust_env=False
+        ) as client:
+            async with client.stream(
+                "POST",
+                url,
+                headers={**headers, "Accept-Encoding": "identity"},
+                json=body,
+            ) as response:
+                if response.status_code != 200 or response.headers.get(
+                    "Content-Encoding", ""
+                ).lower() not in {"", "identity"}:
+                    raise ValueError("Authority unavailable")
+                payload = bytearray()
+                async for chunk in response.aiter_bytes():
+                    if len(payload) + len(chunk) > max_bytes:
+                        raise ValueError("Authority unavailable")
+                    payload.extend(chunk)
+    return json.loads(payload)
 
 
 def enforcement_enabled() -> bool:
@@ -112,18 +141,27 @@ def require_open_account(claims: dict) -> None:
     try:
         base = service_url("ACCOUNT_CLOSURE_GUARD_URL")
         credential = service_secret("ACCOUNT_CLOSURE_GUARD_TOKEN")
-        with httpx.Client(timeout=3, follow_redirects=False, trust_env=False) as client:
-            response = client.post(
+        # Validation is synchronous; async callers must use their existing
+        # executor boundary so an in-process authority can serve the callback.
+        try:
+            asyncio.get_running_loop()
+        except RuntimeError:
+            pass
+        else:
+            raise InvalidTokenError("Account authorization unavailable")
+        result = asyncio.run(
+            _post_json(
                 base + "/api/v1/internal/account-lifecycle/check",
                 headers={"X-Account-Lifecycle-Token": credential},
-                json={
+                body={
                     "subject": subject,
                     "tenant_id": claims.get(
                         "https://spanopticon.dev/tenant_id", claims.get("tenant_id")
                     ),
                 },
+                max_bytes=1024 * 1024,
             )
-        result = response.json() if response.status_code == 200 else None
+        )
         if not isinstance(result, dict) or result.get("blocked") is not False:
             raise InvalidTokenError("Account is unavailable")
     except InvalidTokenError:
@@ -139,25 +177,22 @@ async def require_closure_permit(
     if not enforcement_enabled() or closed_at.tzinfo is None:
         raise RuntimeError("Account closure permit unavailable")
     try:
-        async with httpx.AsyncClient(
-            timeout=3, trust_env=False, follow_redirects=False
-        ) as client:
-            response = await client.post(
-                service_url("ACCOUNT_CLOSURE_GUARD_URL")
-                + "/api/v1/internal/account-lifecycle/permit",
-                headers={
-                    "X-Account-Lifecycle-Token": service_secret(
-                        "ACCOUNT_CLOSURE_GUARD_TOKEN"
-                    ),
-                    **({"X-Tenant-ID": str(tenant_id)} if tenant_id else {}),
-                },
-                json={
-                    "subject": subject,
-                    "closed_at": closed_at.isoformat(),
-                    "tenant_id": str(tenant_id) if tenant_id else None,
-                },
-            )
-        result = response.json() if response.status_code == 200 else None
+        result = await _post_json(
+            service_url("ACCOUNT_CLOSURE_GUARD_URL")
+            + "/api/v1/internal/account-lifecycle/permit",
+            headers={
+                "X-Account-Lifecycle-Token": service_secret(
+                    "ACCOUNT_CLOSURE_GUARD_TOKEN"
+                ),
+                **({"X-Tenant-ID": str(tenant_id)} if tenant_id else {}),
+            },
+            body={
+                "subject": subject,
+                "closed_at": closed_at.isoformat(),
+                "tenant_id": str(tenant_id) if tenant_id else None,
+            },
+            max_bytes=1024 * 1024,
+        )
         if not isinstance(result, dict) or result.get("allowed") is not True:
             raise RuntimeError("Account closure permit unavailable")
     except Exception:
@@ -169,25 +204,22 @@ async def closure_scope(*, subject: str, closed_at, tenant_id: uuid.UUID) -> dic
     if not enforcement_enabled() or closed_at.tzinfo is None:
         raise RuntimeError("Account closure scope unavailable")
     try:
-        async with httpx.AsyncClient(
-            timeout=3, trust_env=False, follow_redirects=False
-        ) as client:
-            response = await client.post(
-                service_url("ACCOUNT_CLOSURE_GUARD_URL")
-                + "/api/v1/internal/account-lifecycle/scope",
-                headers={
-                    "X-Account-Lifecycle-Token": service_secret(
-                        "ACCOUNT_CLOSURE_GUARD_TOKEN"
-                    ),
-                    "X-Tenant-ID": str(tenant_id),
-                },
-                json={
-                    "subject": subject,
-                    "closed_at": closed_at.isoformat(),
-                    "tenant_id": str(tenant_id),
-                },
-            )
-        result = response.json() if response.status_code == 200 else None
+        result = await _post_json(
+            service_url("ACCOUNT_CLOSURE_GUARD_URL")
+            + "/api/v1/internal/account-lifecycle/scope",
+            headers={
+                "X-Account-Lifecycle-Token": service_secret(
+                    "ACCOUNT_CLOSURE_GUARD_TOKEN"
+                ),
+                "X-Tenant-ID": str(tenant_id),
+            },
+            body={
+                "subject": subject,
+                "closed_at": closed_at.isoformat(),
+                "tenant_id": str(tenant_id),
+            },
+            max_bytes=64 * 1024 * 1024,
+        )
         if not isinstance(result, dict) or result.get("allowed") is not True:
             raise ValueError()
         if (
