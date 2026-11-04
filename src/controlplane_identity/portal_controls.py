@@ -1,6 +1,6 @@
 """Org / group portal controls on the existing membership tree.
 
-Public nouns are org and group. Groups are the existing (s)panopticon /
+Public nouns are org and group. Groups are the existing spanopticon /
 Keycloak groups (host, renter, billing, ir, ir_export). Portal / org
 admin is the existing ``admin`` role — customer-support, user/org
 invite and assign. It is not KC_BOOTSTRAP_ADMIN and it does not inherit
