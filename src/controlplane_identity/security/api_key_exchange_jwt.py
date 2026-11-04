@@ -11,7 +11,7 @@ from jwt import InvalidTokenError
 
 from controlplane_identity.configuration import settings
 
-ISSUER = "https://panopticon.internal/api-key"
+ISSUER = "https://spanopticon.internal/api-key"
 ALG = "HS256"
 TTL_SECONDS = 300
 
@@ -31,8 +31,8 @@ def mint_api_key_session_jwt(
         "azp": "controlplane-api-key",
         "iat": now,
         "exp": now + TTL_SECONDS,
-        "panopticon_auth": "api_key",
-        "https://panopticon.dev/tenant_id": str(tenant_id),
+        "spanopticon_auth": "api_key",
+        "https://spanopticon.dev/tenant_id": str(tenant_id),
         "scope": " ".join(scopes),
     }
     if purpose:
@@ -62,6 +62,6 @@ def try_decode_api_key_session_jwt(token: str) -> dict[str, Any] | None:
         )
     except InvalidTokenError:
         return None
-    if payload.get("panopticon_auth") != "api_key":
+    if payload.get("spanopticon_auth") != "api_key":
         return None
     return payload
