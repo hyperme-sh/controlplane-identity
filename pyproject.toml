@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "controlplane-identity"
-version = "1.0.0"
+version = "0.15.0"
 requires-python = ">=3.13"
 dependencies = ["fastapi>=0.135.0", "httpx>=0.28.1", "pyjwt[crypto]>=2.10.1", "eth-account>=0.13.0", "eth-abi>=5.0.0", "eth-utils>=5.0.0", "eth-keys>=0.7.0"]
 

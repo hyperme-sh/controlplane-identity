@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repository": "hyperme-sh/controlplane-identity",
   "component": "controlplane-identity",
-  "line": "1.0",
+  "line": "0.15",
   "version_files": [
     "pyproject.toml"
   ]
