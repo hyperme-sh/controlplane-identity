@@ -22,6 +22,11 @@ helper. Unconfigured calls raise `RuntimeError`. Hypermesh does this from
 `controlplane-api` settings at process start. The library runs inside that
 process.
 
+This section describes the source tree on this branch, package **0.15.0**.
+The published `v0.24.0` wheel is an earlier build. Interactive age confirmation
+and account retirement, both described below, are in this tree and absent from
+that wheel. The install section lists the exact checks.
+
 | Module | Responsibility |
 | --- | --- |
 | `configuration` | Process-wide Keycloak URLs, client allowlists, API-key exchange secret, and internal token |
@@ -130,9 +135,30 @@ uv pip install \
   "https://github.com/hyperme-sh/controlplane-identity/releases/download/v0.24.0/controlplane_identity-0.24.0-py3-none-any.whl"
 ```
 
-The calls below match this tree. The same functions are on the `v0.24.0` tag.
-Run them with `uv run python` from the clone after the configuration object
-exists. Hypermesh services get that object from `controlplane_api.config`,
+That revision's wheel contains the checks in the examples below: internal
+tokens, API-key validation and exchange sessions, Keycloak RS256 validation
+with the audience and `azp` allowlists, host-setup sessions, portal grants,
+person binding, and Base wallet proofs. Two checks described above are only
+in this source tree:
+
+- **Interactive age confirmation.** On this tree, `validate` and
+  `validate_closure_operator` reject `controlplane-frontend`,
+  `controlplane-mobile`, `controlplane-device`, and `hypermesh-native` unless
+  `terms_and_conditions` is a positive integer timestamp (`account_type=service`
+  is exempt). `security/keycloak_jwt.py` at `74857a6e` has no age check, so
+  the `v0.24.0` wheel accepts those clients without that timestamp.
+- **Account retirement.** This tree provides `controlplane_identity.account_lifecycle`.
+  `ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED=true` makes Keycloak validation and
+  tenant-session and host-setup decoding call the closure guard.
+  `validate_closure_operator` requires audience `spanopticon-account-closure`
+  and realm role `account:close`. The `v0.24.0` tree has no
+  `account_lifecycle.py` and no `validate_closure_operator`. Setting the
+  environment variable in a process that imported that wheel leaves retirement
+  enforcement off, because the installed code never reads it.
+
+The examples below use functions that exist on this tree and on the `v0.24.0`
+tag. Run them with `uv run python` from the clone after the configuration
+object exists. Hypermesh services get that object from `controlplane_api.config`,
 which already calls `configure_identity`. A standalone program supplies its own:
 
 ```python

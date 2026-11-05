@@ -23,9 +23,11 @@ The project is not published to PyPI. Install from a clone of this branch or
 from a GitHub release asset. See the [README](../README.md) for the commands.
 
 Account-closure checks and interactive age confirmation are part of the
-`0.15.0` source tree. Building that tree does not publish a new stable
-release. Consumers pinned to an older commit keep that commit until they
-change the pin.
+`0.15.0` source tree and are absent from the `v0.24.0` wheel at
+`74857a6e3b2c22eb1752329693a3f146d9489120`. Building this tree does not publish
+a new stable release. Consumers pinned to an older commit or to that wheel
+keep the checks that revision actually contains. The README lists which
+checks the wheel omits.
 
 ## Qualification
 
