@@ -88,6 +88,8 @@ class KeycloakJWTValidator:
             raise InvalidTokenError(
                 f"Invalid azp: {azp!r} not in allowed clients {sorted(allowed)!r}"
             )
+        if azp in _INTERACTIVE_AGE_CLIENTS and not _age_confirmation_satisfied(payload):
+            raise InvalidTokenError("age confirmation required")
         require_open_account(payload)
         return payload
 
