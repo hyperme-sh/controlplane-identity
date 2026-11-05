@@ -103,3 +103,44 @@ def test_preserves_authority_and_classification():
 def test_missing_usable_secret(monkeypatch):
     monkeypatch.setattr(configuration, "_configured", SimpleNamespace(usable_api_key_exchange_secret=lambda: None))
     assert tenant(token(claims())) is None
+
+
+@pytest.mark.parametrize("kind,decoder", [("tenant-session", tenant), ("host-setup", setup)])
+@pytest.mark.parametrize("state", [False, True, "unavailable", "malformed"])
+def test_legacy_account_sessions_require_current_lifecycle(monkeypatch, kind, decoder, state):
+    from controlplane_identity import account_lifecycle
+    monkeypatch.setenv("ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED", "true")
+    monkeypatch.setenv("ACCOUNT_CLOSURE_GUARD_URL", "https://closure.invalid")
+    monkeypatch.setenv("ACCOUNT_CLOSURE_GUARD_TOKEN", "g" * 40)
+    seen = []
+
+    async def post(url, **kwargs):
+        seen.append(kwargs["body"])
+        if state == "unavailable":
+            raise OSError("authority unavailable")
+        return {} if state == "malformed" else {"blocked": state}
+
+    monkeypatch.setattr(account_lifecycle, "_post_json", post)
+    result = decoder(token(claims(kind)))
+    assert (result is not None) == (state is False)
+    assert seen == [{"subject": "person-123", "tenant_id": TENANT}]
+
+
+@pytest.mark.parametrize("kind,decoder", [("tenant-session", tenant), ("host-setup", setup)])
+def test_legacy_lifecycle_fails_closed_when_guard_is_unavailable(monkeypatch, kind, decoder):
+    import sys
+    monkeypatch.setenv("ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED", "true")
+    monkeypatch.setitem(sys.modules, "controlplane_identity.account_lifecycle", None)
+    assert decoder(token(claims(kind))) is None
+
+
+@pytest.mark.asyncio
+async def test_legacy_lifecycle_cannot_bypass_async_validation_guard(monkeypatch):
+    from controlplane_identity import account_lifecycle
+    monkeypatch.setenv("ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED", "true")
+    monkeypatch.setenv("ACCOUNT_CLOSURE_GUARD_URL", "https://closure.invalid")
+    monkeypatch.setenv("ACCOUNT_CLOSURE_GUARD_TOKEN", "g" * 40)
+    async def post(*args, **kwargs):
+        pytest.fail("Synchronous validator must not invoke authority on its caller's event loop")
+    monkeypatch.setattr(account_lifecycle, "_post_json", post)
+    assert tenant(token(claims())) is None
