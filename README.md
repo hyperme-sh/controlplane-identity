@@ -46,7 +46,7 @@ enabled. See the [shared release contract](https://github.com/hyperme-sh/.github
 
 ## Account lifecycle authority
 
-The additive contract version 0.24 includes purpose-separated lifecycle service
+The closure contract includes purpose-separated lifecycle service
 credentials, canonical tenant-bound denial digests, explicit offline gateway
 context and fail-closed retirement/permit/scope checks. Enforcement stays off
 unless ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED is explicitly true. Native Keycloak,
@@ -59,9 +59,11 @@ Package checks exercise these boundaries from source, installed wheel and rebuil
 sdist. General interactive sign-in age policy is not changed by this adoption;
 the dedicated closure operator validation preserves its source age proof.
 
-Closure adoption is rebased onto the published 0.24 owner history. The candidate
-contract binds the newly built development snapshot; accepted baseline files
-remain unchanged. This is code/package qualification, not permission to replace
-the accepted 0.24.0 artifact or bypass version/compatibility admission. A future
-release still requires coordinated version selection and the existing admission
-checks. Closure remains default-off.
+Closure adoption uses release version 1.0.0 on line 1.0. The conservative release
+contract covers every packaged runtime byte; it cannot certify changed identity
+code as a patch or minor release. The major version records that compatibility
+boundary without replacing the immutable accepted 0.24.0 artifact or weakening
+admission. Candidate metadata is regenerated from the exact built wheel; accepted
+baseline files remain unchanged. This version does not establish production or
+provider readiness. Closure remains default-off, and consumers must adopt the
+new immutable revision and qualify their own behavior.
