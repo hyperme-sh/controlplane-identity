@@ -1,0 +1,13 @@
+{
+  "repository": "FyberLabs/panopticon",
+  "commit": "2cd00fd9a7ebb950999571a81be7cb0a24d9264e",
+  "source": "controlplane-edge/tests/test_keycloak_audience.py",
+  "source_sha256": "d1679bfe1146b1410b982ef8cf2f86b0cbe0d203e17d0b23a77488b3befe2e95",
+  "definitions": [
+    "_interactive_validator",
+    "test_interactive_token_without_age_confirmation_is_rejected",
+    "test_interactive_token_with_age_timestamp_is_accepted",
+    "test_machine_and_service_tokens_do_not_need_an_age_timestamp"
+  ],
+  "adaptation": "Unchanged function bodies and decorators. Imports target identity directly; isolated settings fixture replaces legacy API configuration. VM environment example assertion remains with deployment owner."
+}
