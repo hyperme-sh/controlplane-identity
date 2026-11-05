@@ -1,0 +1,22 @@
+{
+  "repository": "hyperme-sh/controlplane-identity",
+  "revision": "8a5c86cab20a94b98c11437a489a35fe01e741ac",
+  "release_id": 434592207,
+  "immutable": true,
+  "tag": "test-8a5c86cab20a94b98c11437a489a35fe01e741ac",
+  "run_id": 41936010411,
+  "artifact_id": 13373222991,
+  "assets": {
+    "controlplane_identity-0.15.0-py3-none-any.whl": "sha256:0db850f77fdd7efdb41703579333171088783f737aef7c3e4a7ea13a19f51d69",
+    "controlplane_identity-0.15.0.tar.gz": "sha256:d2a0300aacfa1935ebc72d447c2827d29520bfdd5463e78fe56f8158e4e9cd0e"
+  },
+  "published_release_url": "https://github.com/hyperme-sh/controlplane-identity/releases/tag/test-8a5c86cab20a94b98c11437a489a35fe01e741ac",
+  "checks": [
+    "successful same-repository main-push package run",
+    "live Actions artifact digest",
+    "release bytes equal tested bytes",
+    "immutable release and tag revision",
+    "asset digests equal manifest"
+  ],
+  "consumer_qualification": "44 tests against the exact published wheel in an isolated interpreter; purpose-bound sessions, public module imports and mocked wallet verification. Live Base/validator and service alias/configuration integration remain separate."
+}

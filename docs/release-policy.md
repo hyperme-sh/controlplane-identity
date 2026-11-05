@@ -39,3 +39,15 @@ approvals, CODEOWNERS approval requirements, or release/deployment approval gate
 unless the user explicitly requests that specific change. This includes production
 releases. Automated tests and advisory reviews are welcome; human approval
 prerequisites are not. GitHub plan upgrades are not release-adoption prerequisites.
+
+## Artifact qualification
+
+Package CI exports all packaged identity runtime bytes from the actual wheel
+without importing candidate code. This conservative contract requires byte
+equality for patches, including implementation-only changes; it is not a semantic
+compatibility analyzer. Distribution version metadata is excluded from the
+contract, while the complete wheel digest is bound to the candidate.
+The existing purpose-bound session, public import and mocked wallet tests run in
+source, fresh-wheel and rebuilt-sdist contexts. Service configuration, legacy
+alias integration and live Base/validator acceptance remain separate. Accepted
+provenance identifies the immutable release and successful main Actions artifact.
