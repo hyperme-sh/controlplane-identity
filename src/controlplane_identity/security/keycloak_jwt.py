@@ -10,9 +10,38 @@ import jwt
 from jwt import InvalidTokenError, PyJWKClient
 from jwt.exceptions import PyJWKClientConnectionError
 
+from controlplane_identity.account_lifecycle import require_open_account
 from controlplane_identity.configuration import settings
 
 logger = logging.getLogger(__name__)
+
+
+_INTERACTIVE_AGE_CLIENTS = frozenset({
+    "controlplane-frontend",
+    "controlplane-mobile",
+    "controlplane-device",
+    "hypermesh-native",
+})
+
+
+def _age_confirmation_satisfied(payload: dict[str, object]) -> bool:
+    """Service automation is exempt. Everyone else needs a positive Unix timestamp.
+
+    Keycloak 26.5 can skip the required action when ``kc_action`` names it.
+    The access token is the check that still holds for every interactive client.
+    """
+    if payload.get("account_type") == "service":
+        return True
+    raw = payload.get("terms_and_conditions")
+    if isinstance(raw, list):
+        raw = raw[0] if raw else None
+    if isinstance(raw, bool) or isinstance(raw, float):
+        return False
+    if isinstance(raw, int):
+        return raw > 0
+    if isinstance(raw, str) and raw.isdigit():
+        return int(raw) > 0
+    return False
 
 
 class KeycloakJWTValidator:
@@ -59,7 +88,50 @@ class KeycloakJWTValidator:
             raise InvalidTokenError(
                 f"Invalid azp: {azp!r} not in allowed clients {sorted(allowed)!r}"
             )
+        require_open_account(payload)
         return payload
+
+    def validate_closure_operator_sync(
+        self, token: str, *, client_ids: frozenset[str]
+    ) -> dict[str, object]:
+        """Native global closure grant, isolated from generic application trust.
+
+        The caller supplies its immutable server-configured operator clients.
+        Dedicated audiences never add those clients to ordinary API trust.
+        """
+        if (
+            not isinstance(client_ids, frozenset) or not client_ids or len(client_ids) > 1000
+            or any(not isinstance(value, str) or not value.strip() or len(value) > 512 for value in client_ids)
+        ):
+            raise InvalidTokenError("Explicit closure operator clients required")
+        signing_key = self._jwks_client.get_signing_key_from_jwt(token)
+        payload = jwt.decode(
+            token, signing_key.key, algorithms=["RS256"], issuer=self._issuer,
+            audience="spanopticon-account-closure",
+            options={"require": ["exp", "iat", "sub", "iss", "aud", "azp"]},
+        )
+        azp, subject = payload.get("azp"), payload.get("sub")
+        roles = payload.get("realm_access")
+        roles = roles.get("roles") if isinstance(roles, dict) else None
+        if (
+            not isinstance(azp, str) or azp not in client_ids
+            or azp in {"hypermesh-host-setup", "account-closure-reader", "account-closure-worker"}
+            or not isinstance(subject, str) or not subject.strip() or len(subject) > 512
+            or subject.startswith("apikey:") or payload.get("spanopticon_auth")
+            or payload.get("purpose") or "api_key_id" in payload or "key_id" in payload
+            or not isinstance(roles, list) or not all(isinstance(role, str) for role in roles)
+            or "account:close" not in roles
+        ):
+            raise InvalidTokenError("Native closure operator grant required")
+        if azp in _INTERACTIVE_AGE_CLIENTS and not _age_confirmation_satisfied(payload):
+            raise InvalidTokenError("age confirmation required")
+        require_open_account(payload)
+        return payload
+
+    async def validate_closure_operator(
+        self, token: str, *, client_ids: frozenset[str]
+    ) -> dict[str, object]:
+        return await asyncio.to_thread(self.validate_closure_operator_sync, token, client_ids=client_ids)
 
     def validate_host_setup_sync(self, token: str) -> dict[str, object]:
         """Validate the device client only for the dedicated setup exchange."""
@@ -71,16 +143,14 @@ class KeycloakJWTValidator:
         )
         if payload.get("azp") != "hypermesh-host-setup" or not payload.get("sub"):
             raise InvalidTokenError("host setup client required")
+        require_open_account(payload)
         return payload
 
     async def validate_host_setup(self, token: str) -> dict[str, object]:
-        return await asyncio.get_running_loop().run_in_executor(
-            None, self.validate_host_setup_sync, token,
-        )
+        return await asyncio.to_thread(self.validate_host_setup_sync, token)
 
     async def validate(self, token: str) -> dict[str, object]:
-        loop = asyncio.get_running_loop()
-        return await loop.run_in_executor(None, self.validate_sync, token)
+        return await asyncio.to_thread(self.validate_sync, token)
 
 
 @lru_cache
