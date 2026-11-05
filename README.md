@@ -1,5 +1,14 @@
 # controlplane-identity
 
+## Current version authority
+
+Current development version: `0.15.0`. The services remain before the unreleased
+0.24.0 milestone. Earlier 0.24/1.0 preparation and publication notes below are
+historical and do not authorize those versions. Existing tags and historical
+artifacts remain untouched. Development uses exact source pins and rebuilt
+artifacts; no prior release is required. Version changes, tags and publication
+require the owner's explicit authorization to the agent.
+
 Shared internal-token comparison, person/portal permissions, API-key and Keycloak
 validation, purpose-bound sessions, and Base wallet proof verification.
 See [configuration and verification behavior](docs/identity.md).
@@ -57,14 +66,10 @@ Package checks exercise these boundaries from source, installed wheel and rebuil
 sdist. General interactive sign-in age policy is not changed by this adoption;
 the dedicated closure operator validation preserves its source age proof.
 
-Closure adoption uses release version 1.0.0 on line 1.0. The conservative release
-contract covers every packaged runtime byte; it cannot certify changed identity
-code as a patch or minor release. The major version records that compatibility
-boundary without replacing the immutable accepted 0.24.0 artifact or weakening
-admission. Candidate metadata is regenerated from the exact built wheel; accepted
-baseline files remain unchanged. This version does not establish production or
-provider readiness. Closure remains default-off, and consumers must adopt the
-new immutable revision and qualify their own behavior.
+Closure adoption retains version 0.15.0. Current wheel/contract evidence is
+regenerated from the corrected source; historical accepted records remain
+unchanged. Runtime-byte differences do not authorize a release-line change.
+Closure remains default-off and provider readiness is separate.
 
 ## Test qualification and stable acceptance
 
