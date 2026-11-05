@@ -238,7 +238,7 @@ wheels = [
 
 [[package]]
 name = "controlplane-identity"
-version = "1.0.0"
+version = "0.15.0"
 source = { editable = "." }
 dependencies = [
     { name = "eth-abi" },
