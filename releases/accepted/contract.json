@@ -1,0 +1,17 @@
+{
+  "coverage": "conservative complete packaged identity runtime, token validation, session and wallet verification bytes",
+  "packaged_file_sha256": {
+    "controlplane_identity/__init__.py": "23b52b2c457e44cd434b992a3065e1a1965cb74ff708c7e435571bd475c9e749",
+    "controlplane_identity/api_keys_client.py": "247d79e4f8a6f946d29cb8482ae99a82822a362f7d5d61abb7457bda5bf4e425",
+    "controlplane_identity/configuration.py": "ea4682f84533c08894aab49d92e1530802746e9e97cdc123d094ee62ebcab691",
+    "controlplane_identity/internal_token.py": "c8e2b37db843dd9f45297f11b12187ebfa1bf044afa284753410e03b1c3b6897",
+    "controlplane_identity/person_bind.py": "e98909e6cf61c3678b9a9c94cc1e798744d5d2b6e8bcd768e6561920722ac4d5",
+    "controlplane_identity/portal_controls.py": "b90369d782fa366c2d04b0a945cda6f371ef73ea5f8dcde985dd10bff866bc53",
+    "controlplane_identity/security/__init__.py": "afcf84b26221f23c01b7309a0f089ca0b47e73b8d07c76edf4b93431c6ea2050",
+    "controlplane_identity/security/api_key_exchange_jwt.py": "e6f23477b160d156446b06c3a87b9561290dc681acbebd62c1e617c13e8229f6",
+    "controlplane_identity/security/keycloak_jwt.py": "e242078e910cc45699e8b19bed3c6423e5ccadb7cfdb29c7308625c6f92cdb74",
+    "controlplane_identity/security/tenant_session_jwt.py": "23a9078b2cd9b3063c84e5dc4c8496dbb13ddad2385d5a4644ebc02406dfcfe9",
+    "controlplane_identity/wallet.py": "85844afb05c378f580f51b814044a6751854455dad4d2ebee42782bebf3e695e"
+  },
+  "schema_version": 1
+}
