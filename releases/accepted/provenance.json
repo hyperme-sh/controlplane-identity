@@ -1,22 +1,14 @@
 {
+  "schema_version": 1,
   "repository": "hyperme-sh/controlplane-identity",
-  "revision": "94717d746f9d321dde1a44019c10e31acaee3204",
-  "release_id": 434613216,
-  "immutable": true,
-  "tag": "test-94717d746f9d321dde1a44019c10e31acaee3204",
-  "run_id": 41940130507,
-  "artifact_id": 13375966324,
+  "tag": "v0.24.0",
+  "revision": "74857a6e3b2c22eb1752329693a3f146d9489120",
+  "release_id": 434687235,
   "assets": {
     "controlplane_identity-0.24.0-py3-none-any.whl": "sha256:dc8519d07eadd07efd7d05487a44c0a29d85d5cfb2ac37fedb7f78fe8e3b3ad9",
-    "controlplane_identity-0.24.0.tar.gz": "sha256:e2917c056bbb9bf1d544c094f4eddd02492661a0d150d1acda500141397ce1fb"
+    "controlplane_identity-0.24.0.tar.gz": "sha256:4bcb1fa7650ded6ecc27ee6338c0787b7ec7eb814b7a780ec1795e481f75e147",
+    "release-manifest.json": "sha256:316e99623953be21a7e459aba5fef27e6fb1081fac9ea369011c326b90ac41f2"
   },
-  "published_release_url": "https://github.com/hyperme-sh/controlplane-identity/releases/tag/test-94717d746f9d321dde1a44019c10e31acaee3204",
-  "checks": [
-    "successful same-repository main-push package run",
-    "live Actions artifact digest",
-    "release bytes equal tested bytes",
-    "immutable release and tag revision",
-    "asset digests equal manifest"
-  ],
-  "consumer_qualification": "44 tests against exact published 0.24 wheel in isolated interpreter. Hosted main checks pass 44 tests in source/wheel/rebuilt-sdist and 13 tooling tests. Service configuration/legacy aliases and live Base/validator qualification remain separate."
+  "published_release_url": "https://github.com/hyperme-sh/controlplane-identity/releases/tag/v0.24.0",
+  "qualification": "Existing immutable stable distribution; runtime deployment and coordinated consumer acceptance remain separate."
 }
