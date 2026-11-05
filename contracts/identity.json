@@ -189,6 +189,168 @@
       }
     },
     "controlplane_identity": {},
+    "controlplane_identity.account_lifecycle": {
+      "authorized_call": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": null,
+            "default": null,
+            "kind": "positional",
+            "name": "headers"
+          },
+          {
+            "annotation": "bool",
+            "default": "16f1e42871b102e3fa2c20b0718ea943aeeff0fcb7f30b982f8e609600918ffd",
+            "kind": "keyword-only",
+            "name": "mutation"
+          }
+        ],
+        "returns": "bool"
+      },
+      "closure_scope": {
+        "decorators": [],
+        "kind": "async-function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "subject"
+          },
+          {
+            "annotation": null,
+            "default": null,
+            "kind": "keyword-only",
+            "name": "closed_at"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          }
+        ],
+        "returns": "dict"
+      },
+      "enforcement_enabled": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [],
+        "returns": "bool"
+      },
+      "key_digest": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "positional",
+            "name": "tenant"
+          },
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "positional",
+            "name": "identifier"
+          }
+        ],
+        "returns": "str"
+      },
+      "offline_gateway_verification": {
+        "decorators": [
+          "8c2a97c9b55ca296b227c22ea908e001991e0437f8ca2d656935eb6cff5f7651"
+        ],
+        "kind": "function",
+        "parameters": [],
+        "returns": null
+      },
+      "require_closure_permit": {
+        "decorators": [],
+        "kind": "async-function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "subject"
+          },
+          {
+            "annotation": null,
+            "default": null,
+            "kind": "keyword-only",
+            "name": "closed_at"
+          },
+          {
+            "annotation": "uuid.UUID | None",
+            "default": null,
+            "kind": "keyword-only",
+            "name": "tenant_id"
+          }
+        ],
+        "returns": "None"
+      },
+      "require_open_account": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "dict",
+            "default": null,
+            "kind": "positional",
+            "name": "claims"
+          }
+        ],
+        "returns": "None"
+      },
+      "service_secret": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "name"
+          }
+        ],
+        "returns": "str"
+      },
+      "service_url": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "name"
+          }
+        ],
+        "returns": "str"
+      },
+      "subject_digest": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "uuid.UUID",
+            "default": null,
+            "kind": "positional",
+            "name": "tenant"
+          },
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "subject"
+          }
+        ],
+        "returns": "str"
+      }
+    },
     "controlplane_identity.api_keys_client": {
       "validate_api_key_remote": {
         "decorators": [],
@@ -784,6 +946,56 @@
             ],
             "returns": "dict[str, object]"
           },
+          "validate_closure_operator": {
+            "decorators": [],
+            "kind": "async-function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              },
+              {
+                "annotation": "frozenset[str]",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "client_ids"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
+          "validate_closure_operator_sync": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "positional",
+                "name": "token"
+              },
+              {
+                "annotation": "frozenset[str]",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "client_ids"
+              }
+            ],
+            "returns": "dict[str, object]"
+          },
           "validate_host_setup": {
             "decorators": [],
             "kind": "async-function",
@@ -962,9 +1174,35 @@
         ],
         "returns": "dict[str, Any] | None"
       },
+      "try_decode_host_setup_session_async": {
+        "decorators": [],
+        "kind": "async-function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      },
       "try_decode_tenant_session_jwt": {
         "decorators": [],
         "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str",
+            "default": null,
+            "kind": "positional",
+            "name": "token"
+          }
+        ],
+        "returns": "dict[str, Any] | None"
+      },
+      "try_decode_tenant_session_jwt_async": {
+        "decorators": [],
+        "kind": "async-function",
         "parameters": [
           {
             "annotation": "str",
@@ -1087,5 +1325,5 @@
       }
     }
   },
-  "version": "0.23.0"
+  "version": "1.0.0"
 }
