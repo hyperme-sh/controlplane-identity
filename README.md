@@ -58,3 +58,10 @@ API-key, worker and reader identities do not substitute for that authority.
 Package checks exercise these boundaries from source, installed wheel and rebuilt
 sdist. General interactive sign-in age policy is not changed by this adoption;
 the dedicated closure operator validation preserves its source age proof.
+
+Closure adoption is rebased onto the published 0.24 owner history. The candidate
+contract binds the newly built development snapshot; accepted baseline files
+remain unchanged. This is code/package qualification, not permission to replace
+the accepted 0.24.0 artifact or bypass version/compatibility admission. A future
+release still requires coordinated version selection and the existing admission
+checks. Closure remains default-off.
