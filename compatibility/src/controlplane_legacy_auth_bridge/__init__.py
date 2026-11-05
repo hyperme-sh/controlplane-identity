@@ -63,6 +63,16 @@ def _legacy(token: str, kind: str) -> dict[str, Any] | None:
     # Normalize only verified namespaced tenant context. Preserve original issuer,
     # subject, expiry, purpose, scopes, roles and classification for authorization.
     payload[_CANONICAL_TENANT] = str(tenants[0])
+    if kind in {"tenant-session", "host-setup"} and os.environ.get(
+        "ACCOUNT_CLOSURE_ENFORCEMENT_ENABLED", ""
+    ).lower() == "true":
+        try:
+            from controlplane_identity.account_lifecycle import require_open_account
+            require_open_account(payload)
+        except (ImportError, InvalidTokenError):
+            # Older identity revisions without the authority check cannot
+            # provide lifecycle enforcement for a compatibility credential.
+            return None
     return payload
 
 
