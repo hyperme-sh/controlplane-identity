@@ -33,7 +33,7 @@ handling and wallet proof behavior unchanged when editing packaging or CI.
 Service configuration and legacy-alias integration require consumer suites.
 
 CI uses ubuntu-24.04, exact action SHAs, read-only contents and no deployment
-credentials. Keep internal migration planning and receipts in hypermesh-docs.
+credentials. Keep internal migration planning and documentation evidence in hypermesh-docs.
 
 ## Package publication permission boundary
 
@@ -68,6 +68,30 @@ component baselines stay unchanged. Select exact component commits and artifact
 digests in the coordinated manifest; local test counters need not match.
 Stable promotion still requires explicit owner selection of the gold candidate
 and destination. No new approval prerequisites or deployment authority are added.
+
+This authorization applies only to CI. Agents must not start or repeat
+these jobs by hand on shared hosts.
+
+## Integration and receipt runs
+
+No agent runs integration tests or functional API receipts by hand on hosts
+or other shared resources, and none run those suites outside CI. On a pull
+request, agents run only unit and contract tests. CI may add a smoke check
+scoped to the services the pull request touches. A toggle or configuration
+change needs a unit or contract test for that change, not a full receipt or
+end-to-end suite.
+
+The full integration suite runs once as a nightly CI batch against main.
+That batch uses a single concurrency group and cancels any run it supersedes.
+When a nightly run fails on something whose issue is already closed, CI files
+a new issue for that failure and links the closed issue when one exists.
+
+Receipts and full integration results are not a Product Sign-off gate. Green
+CI and clean reviews are enough for Sign-off.
+
+Authorized CI workflows, including test-bundle publication and existing smoke
+or owner-integration jobs, may keep running in CI. Agents must not start or
+repeat those jobs by hand on shared hosts.
 
 ## Service deployments and binary provenance
 
