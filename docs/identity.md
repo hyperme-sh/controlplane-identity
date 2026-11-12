@@ -45,3 +45,20 @@ does not match, verification falls back to ERC-1271 on the account address, not
 the delegate address. Other nonempty code always uses ERC-1271. ECDSA recovery
 accepts only low-s signatures with wallet-standard v=27/28; contract proofs retain
 their original bytes and contract-defined validation rules.
+
+## Configured Entra account selector
+
+`entra_binding.EntraAccountBinding.from_config` accepts exactly the `entra`
+object from Infra's private startup configuration: tenant ID, object ID, issuer,
+audience, subject and broker. `matches_verified_id_token(claims, broker=...)`
+requires exact v2 ID-token claims for that binding. It never selects by email,
+name or token roles. The configured public-cloud issuer must name the same
+nonzero canonical tenant UUID. Configuration errors and object representations
+omit binding values.
+
+The service must first verify the ID token's signature, issuer, audience, time
+and single-use nonce, and supply the broker from server configuration. This
+helper is only an immutable account selector. It neither authenticates raw
+claims nor creates an account, proves SEA ownership, authorizes a reconciler or
+grants privileges. User Service owns transactional reconciliation; Auth owns
+verified broker claims. Neither consumer is wired by this additive contract.
