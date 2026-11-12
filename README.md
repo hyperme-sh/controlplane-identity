@@ -390,3 +390,18 @@ admission, and the accepted record are described in
 
 This package is licensed under [Apache-2.0](LICENSE). Dependencies retain their
 own licenses.
+
+The `startup` module validates a private deployment envelope containing the
+unchanged canonical binding, its SHA-256, and separate owner profile/network and
+Keycloak broker settings. `validate` returns a detached normalized mapping;
+`fingerprint` covers the whole mapping. `binding_fingerprint` covers canonical
+binding JSON with its trailing newline. `load` requires a bounded private regular
+file owned by the process, without symlinks or additional hard links.
+
+`verify_claims` selects the configured account from already verified Keycloak
+broker claims. It uses the configured broker alias and immutable Entra tenant
+and object IDs, never email or token roles. Raw Entra ID tokens use
+`EntraAccountBinding` instead. Neither matcher authenticates a token, proves
+possession of the configured SEA key, grants roles, or provisions a person.
+Owners must reject unsupported tenant scopes before writes and read explicit
+organization roles and each platform/Keycloak admin flag independently.
