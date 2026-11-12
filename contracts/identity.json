@@ -495,6 +495,101 @@
         "kind": "attribute"
       }
     },
+    "controlplane_identity.entra_binding": {
+      "EntraAccountBinding": {
+        "bases": [],
+        "decorators": [
+          "dataclass(frozen=True, slots=True, repr=False)"
+        ],
+        "kind": "class",
+        "members": {
+          "audience": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "broker": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "from_config": {
+            "decorators": [
+              "classmethod"
+            ],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "cls"
+              },
+              {
+                "annotation": "object",
+                "default": null,
+                "kind": "positional",
+                "name": "value"
+              }
+            ],
+            "returns": "EntraAccountBinding"
+          },
+          "issuer": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "matches_verified_id_token": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              },
+              {
+                "annotation": "object",
+                "default": null,
+                "kind": "positional",
+                "name": "claims"
+              },
+              {
+                "annotation": "str",
+                "default": null,
+                "kind": "keyword-only",
+                "name": "broker"
+              }
+            ],
+            "returns": "bool"
+          },
+          "object_id": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "subject": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          },
+          "tenant_id": {
+            "annotation": "str",
+            "default": null,
+            "kind": "attribute"
+          }
+        }
+      },
+      "EntraBindingError": {
+        "bases": [
+          "ValueError"
+        ],
+        "decorators": [],
+        "kind": "class",
+        "members": {}
+      }
+    },
     "controlplane_identity.internal_token": {
       "INTERNAL_TOKEN_HEADER": {
         "annotation": null,
