@@ -12,6 +12,7 @@
     "controlplane_identity/security/api_key_exchange_jwt.py": "e6f23477b160d156446b06c3a87b9561290dc681acbebd62c1e617c13e8229f6",
     "controlplane_identity/security/keycloak_jwt.py": "c7bae4c7f2f270b299f39bd9833f665e548df8efa9222683d2f9dbb0b247f314",
     "controlplane_identity/security/tenant_session_jwt.py": "59c4abd4d2a6eaafb1576b5ea4cc9eff5588c3f64b7ecfa30187b8f4a71a1735",
+    "controlplane_identity/startup.py": "b36a735c121df2e6fdfd8a521f61815b5fb426ab14491ee7ee31a7e38be81ea1",
     "controlplane_identity/wallet.py": "85844afb05c378f580f51b814044a6751854455dad4d2ebee42782bebf3e695e"
   },
   "schema_version": 1
