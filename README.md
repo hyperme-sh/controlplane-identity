@@ -380,11 +380,9 @@ distributions as the `tested-dist` artifact (90-day retention).
 This branch packages `controlplane-identity` **0.15.0**. The import contract
 in `contracts/identity.json` is version **1.0.0**. The
 [`v0.24.0`](https://github.com/hyperme-sh/controlplane-identity/releases/tag/v0.24.0)
-GitHub release is the accepted stable wheel (package 0.24.0). Main validation
-can publish prerelease bundles named `0.24.0-test.N`; the wheel inside keeps
-the package version that was built (`0.15.0` in `0.24.0-test.0`). Channels,
-admission, and the accepted record are described in
-[docs/releasing.md](docs/releasing.md).
+GitHub release is the accepted stable wheel (package 0.24.0). Automatic
+package prereleases are not published. Channels, admission, and the accepted
+record are described in [docs/releasing.md](docs/releasing.md).
 
 ## License
 
