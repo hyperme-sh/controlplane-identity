@@ -12,7 +12,7 @@ from typing import Any
 
 import httpx
 
-from controlplane_identity.configuration import settings
+from controlplane_identity.configuration import settings, api_keys_internal_tokens
 
 
 async def validate_api_key_remote(
@@ -23,7 +23,7 @@ async def validate_api_key_remote(
     timeout_s: float = 5.0,
 ) -> dict[str, Any] | None:
     """Return validation JSON dict or None on failure."""
-    token = settings.usable_api_keys_internal_token()
+    token = next(iter(api_keys_internal_tokens()), None)
     if not token:
         return None
     url = base_url.rstrip("/") + "/api/v1/internal/validate"

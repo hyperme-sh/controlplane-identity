@@ -456,6 +456,19 @@
             ],
             "returns": "str | None"
           },
+          "usable_api_key_exchange_secrets": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "tuple[str, ...]"
+          },
           "usable_api_keys_internal_token": {
             "decorators": [],
             "kind": "function",
@@ -468,6 +481,19 @@
               }
             ],
             "returns": "str | None"
+          },
+          "usable_api_keys_internal_tokens": {
+            "decorators": [],
+            "kind": "function",
+            "parameters": [
+              {
+                "annotation": null,
+                "default": null,
+                "kind": "positional",
+                "name": "self"
+              }
+            ],
+            "returns": "tuple[str, ...]"
           }
         }
       },
@@ -475,6 +501,18 @@
         "annotation": null,
         "default": "177da9c210b8c8d258b33c2ca8de7918161ed27394317ae10f14a1577bdd9e02",
         "kind": "attribute"
+      },
+      "api_key_exchange_secrets": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [],
+        "returns": "tuple[str | None, ...]"
+      },
+      "api_keys_internal_tokens": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [],
+        "returns": "tuple[str | None, ...]"
       },
       "configure_identity": {
         "decorators": [],
@@ -615,6 +653,25 @@
         ],
         "returns": "bool"
       },
+      "internal_token_matches_any": {
+        "decorators": [],
+        "kind": "function",
+        "parameters": [
+          {
+            "annotation": "str | None",
+            "default": null,
+            "kind": "positional",
+            "name": "provided"
+          },
+          {
+            "annotation": "Iterable[str | None]",
+            "default": null,
+            "kind": "positional",
+            "name": "expected"
+          }
+        ],
+        "returns": "bool"
+      },
       "provided_internal_token": {
         "decorators": [],
         "kind": "function",
@@ -639,7 +696,7 @@
             "name": "request"
           },
           {
-            "annotation": "str | None",
+            "annotation": "str | None | Iterable[str | None]",
             "default": null,
             "kind": "positional",
             "name": "expected"

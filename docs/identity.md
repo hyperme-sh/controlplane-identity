@@ -62,3 +62,20 @@ helper is only an immutable account selector. It neither authenticates raw
 claims nor creates an account, proves SEA ownership, authorizes a reconciler or
 grants privileges. User Service owns transactional reconciliation; Auth owns
 verified broker claims. Neither consumer is wired by this additive contract.
+
+## Secret rotation
+
+Settings may provide `usable_api_key_exchange_secrets()` and
+`usable_api_keys_internal_tokens()`, ordered current then previous. Older
+settings with only the singular methods remain supported. JWT minting and
+outbound API-key validation use only the first value; they never promote a
+previous value when the current slot is empty. API-key, tenant and host-setup
+session decoders try configured secrets without changing issuer, expiry,
+audience, purpose or account checks.
+
+`internal_token_matches_any` compares every non-empty candidate without an early
+successful return. `request_has_internal_token` accepts either its historical
+single value or an explicit sequence. Consumers supply only the tokens for their
+own trust boundary; unrelated internal credentials are never added implicitly.
+Remove the previous values after the deployment overlap and token lifetime.
+This code change preserves the package version; it does not publish a release.
