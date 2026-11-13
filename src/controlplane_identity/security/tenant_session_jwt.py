@@ -15,7 +15,7 @@ import jwt
 from jwt import InvalidTokenError
 
 from controlplane_identity.account_lifecycle import require_open_account
-from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings
+from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings, api_key_exchange_secrets
 
 ISSUER = "https://spanopticon.internal/tenant-session"
 ALG = "HS256"
@@ -104,7 +104,7 @@ def mint_tenant_session_jwt(
         payload["smoke_session"] = True
         payload[LEGACY_SMOKE_SESSION_CLAIM] = True
         payload[settings.smoke_session_claim] = True
-    secret = settings.usable_api_key_exchange_secret()
+    secret = next(iter(api_key_exchange_secrets()), None)
     if not secret:
         raise RuntimeError("API_KEY_EXCHANGE_JWT_SECRET is unset or is a published default")
     return jwt.encode(
@@ -116,18 +116,21 @@ def mint_tenant_session_jwt(
 
 def try_decode_tenant_session_jwt(token: str) -> dict[str, Any] | None:
     """Return claims if token is a valid tenant-session JWT; else None."""
-    secret = settings.usable_api_key_exchange_secret()
-    if not secret:
-        return None
-    try:
-        payload = jwt.decode(
-            token,
-            secret,
-            algorithms=[ALG],
-            issuer=ISSUER,
-            options={"require": ["exp", "sub", "iss"]},
-        )
-    except InvalidTokenError:
+    for secret in api_key_exchange_secrets():
+        if not secret:
+            continue
+        try:
+            payload = jwt.decode(
+                token,
+                secret,
+                algorithms=[ALG],
+                issuer=ISSUER,
+                options={"require": ["exp", "sub", "iss"]},
+            )
+        except InvalidTokenError:
+            continue
+        break
+    else:
         return None
     if payload.get("azp") == "hypermesh-host-setup" or payload.get("spanopticon_auth") != SPANOPTICON_AUTH:
         return None
@@ -146,7 +149,7 @@ def mint_host_setup_session(*, claims: dict[str, Any], tenant_id: uuid.UUID) -> 
     """Identity and tenant only; never copy account roles or permissions."""
     if claims.get("azp") != HOST_SETUP_AUDIENCE or not claims.get("sub"):
         raise ValueError("host setup identity required")
-    secret = settings.usable_api_key_exchange_secret()
+    secret = next(iter(api_key_exchange_secrets()), None)
     if not secret:
         raise RuntimeError("host setup signing key unavailable")
     now = int(time.time())
@@ -159,16 +162,19 @@ def mint_host_setup_session(*, claims: dict[str, Any], tenant_id: uuid.UUID) -> 
 
 
 def try_decode_host_setup_session(token: str) -> dict[str, Any] | None:
-    secret = settings.usable_api_key_exchange_secret()
-    if not secret:
-        return None
-    try:
-        payload = jwt.decode(
-            token, secret, algorithms=[ALG], issuer=HOST_SETUP_ISSUER,
-            audience=HOST_SETUP_AUDIENCE,
-            options={"require": ["exp", "sub", "iss", "aud", "tenant_id"]},
-        )
-    except InvalidTokenError:
+    for secret in api_key_exchange_secrets():
+        if not secret:
+            continue
+        try:
+            payload = jwt.decode(
+                token, secret, algorithms=[ALG], issuer=HOST_SETUP_ISSUER,
+                audience=HOST_SETUP_AUDIENCE,
+                options={"require": ["exp", "sub", "iss", "aud", "tenant_id"]},
+            )
+        except InvalidTokenError:
+            continue
+        break
+    else:
         return None
     if payload.get("purpose") != "host_setup" or payload.get("azp") != HOST_SETUP_AUDIENCE:
         return None

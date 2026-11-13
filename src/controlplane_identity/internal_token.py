@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hmac
+from collections.abc import Iterable
 
 from fastapi import Request
 
@@ -17,11 +18,19 @@ def provided_internal_token(request: Request) -> str | None:
     return str(raw).strip()
 
 
+def internal_token_matches_any(provided: str | None, expected: Iterable[str | None]) -> bool:
+    """Compare every non-empty candidate without an early successful return."""
+    matched = False
+    for candidate in expected:
+        if candidate:
+            matched |= hmac.compare_digest((provided or "").encode("utf-8"), candidate.encode("utf-8"))
+    return bool(provided) and matched
+
+
 def internal_token_matches(provided: str | None, expected: str | None) -> bool:
-    if not provided or not expected:
-        return False
-    return hmac.compare_digest(provided.encode("utf-8"), expected.encode("utf-8"))
+    return internal_token_matches_any(provided, (expected,))
 
 
-def request_has_internal_token(request: Request, expected: str | None) -> bool:
-    return internal_token_matches(provided_internal_token(request), expected)
+def request_has_internal_token(request: Request, expected: str | None | Iterable[str | None]) -> bool:
+    candidates = (expected,) if isinstance(expected, str) or expected is None else expected
+    return internal_token_matches_any(provided_internal_token(request), candidates)

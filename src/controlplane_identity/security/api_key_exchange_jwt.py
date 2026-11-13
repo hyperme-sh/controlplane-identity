@@ -9,7 +9,7 @@ from typing import Any
 import jwt
 from jwt import InvalidTokenError
 
-from controlplane_identity.configuration import settings
+from controlplane_identity.configuration import settings, api_key_exchange_secrets
 
 ISSUER = "https://spanopticon.internal/api-key"
 ALG = "HS256"
@@ -37,7 +37,7 @@ def mint_api_key_session_jwt(
     }
     if purpose:
         payload["purpose"] = purpose
-    secret = settings.usable_api_key_exchange_secret()
+    secret = next(iter(api_key_exchange_secrets()), None)
     if not secret:
         raise RuntimeError("API_KEY_EXCHANGE_JWT_SECRET is unset or is a published default")
     return jwt.encode(
@@ -49,18 +49,21 @@ def mint_api_key_session_jwt(
 
 def try_decode_api_key_session_jwt(token: str) -> dict[str, Any] | None:
     """Return claims if token is a valid API-key exchange JWT; else None."""
-    secret = settings.usable_api_key_exchange_secret()
-    if not secret:
-        return None
-    try:
-        payload = jwt.decode(
-            token,
-            secret,
-            algorithms=[ALG],
-            issuer=ISSUER,
-            options={"require": ["exp", "sub", "iss"]},
-        )
-    except InvalidTokenError:
+    for secret in api_key_exchange_secrets():
+        if not secret:
+            continue
+        try:
+            payload = jwt.decode(
+                token,
+                secret,
+                algorithms=[ALG],
+                issuer=ISSUER,
+                options={"require": ["exp", "sub", "iss"]},
+            )
+        except InvalidTokenError:
+            continue
+        break
+    else:
         return None
     if payload.get("spanopticon_auth") != "api_key":
         return None

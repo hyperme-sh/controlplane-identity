@@ -15,6 +15,8 @@ class IdentitySettings(Protocol):
 
     def usable_api_keys_internal_token(self) -> str | None: ...
     def usable_api_key_exchange_secret(self) -> str | None: ...
+    def usable_api_key_exchange_secrets(self) -> tuple[str, ...]: ...
+    def usable_api_keys_internal_tokens(self) -> tuple[str, ...]: ...
     def keycloak_allowed_audience_set(self) -> set[str]: ...
     def keycloak_allowed_azp_set(self) -> set[str]: ...
 
@@ -37,3 +39,24 @@ class _SettingsProxy:
 
 
 settings = _SettingsProxy()
+
+
+def _rotation_values(plural: str, singular: str) -> tuple[str | None, ...]:
+    method = getattr(settings, plural, None)
+    if method is None:
+        return (getattr(settings, singular)(),)
+    values = method()
+    if not isinstance(values, (tuple, list)) or any(
+        value is not None and not isinstance(value, str) for value in values
+    ):
+        raise TypeError("Identity rotation settings must return a sequence of secrets")
+    # Keep an empty current slot: callers must never mint with a previous key.
+    return tuple(values)
+
+
+def api_key_exchange_secrets() -> tuple[str | None, ...]:
+    return _rotation_values("usable_api_key_exchange_secrets", "usable_api_key_exchange_secret")
+
+
+def api_keys_internal_tokens() -> tuple[str | None, ...]:
+    return _rotation_values("usable_api_keys_internal_tokens", "usable_api_keys_internal_token")
