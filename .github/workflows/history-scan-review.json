@@ -1,1 +1,218 @@
-[]
+[
+  {
+    "file": "89b4169b44d1490efd38060f9f79a7485d2b7ecc.txt",
+    "sha256": "1dfc4f3cf21e9aae6f841b3a60fdfe2d35028cca1a8f47b924b61a416bed117e",
+    "rule": "generic-api-key",
+    "start": 6,
+    "end": 6,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "5f568492c0572967b80cc74cc1fb574a98db06f7"
+  },
+  {
+    "file": "89b4169b44d1490efd38060f9f79a7485d2b7ecc.txt",
+    "sha256": "1dfc4f3cf21e9aae6f841b3a60fdfe2d35028cca1a8f47b924b61a416bed117e",
+    "rule": "generic-api-key",
+    "start": 9,
+    "end": 9,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "2e8341c4c7adfc73810677885d13e482bc5dea32"
+  },
+  {
+    "file": "89b4169b44d1490efd38060f9f79a7485d2b7ecc.txt",
+    "sha256": "1dfc4f3cf21e9aae6f841b3a60fdfe2d35028cca1a8f47b924b61a416bed117e",
+    "rule": "generic-api-key",
+    "start": 13,
+    "end": 13,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "600349e5804ceabd315b8fd07f06e529fe342142"
+  },
+  {
+    "file": "89b4169b44d1490efd38060f9f79a7485d2b7ecc.txt",
+    "sha256": "1dfc4f3cf21e9aae6f841b3a60fdfe2d35028cca1a8f47b924b61a416bed117e",
+    "rule": "generic-api-key",
+    "start": 14,
+    "end": 14,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "6b5cd11f0d061ce09cf90366a417eada92111ce2"
+  },
+  {
+    "file": "95140c31b29e6ccba8d776af9abf2bdc21cfac82.txt",
+    "sha256": "374a98c633f3e0cffab32f61521d78dae7e327a880595ad689c8b6ee15c12f30",
+    "rule": "generic-api-key",
+    "start": 6,
+    "end": 6,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "5f568492c0572967b80cc74cc1fb574a98db06f7"
+  },
+  {
+    "file": "95140c31b29e6ccba8d776af9abf2bdc21cfac82.txt",
+    "sha256": "374a98c633f3e0cffab32f61521d78dae7e327a880595ad689c8b6ee15c12f30",
+    "rule": "generic-api-key",
+    "start": 8,
+    "end": 8,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "2e8341c4c7adfc73810677885d13e482bc5dea32"
+  },
+  {
+    "file": "95140c31b29e6ccba8d776af9abf2bdc21cfac82.txt",
+    "sha256": "374a98c633f3e0cffab32f61521d78dae7e327a880595ad689c8b6ee15c12f30",
+    "rule": "generic-api-key",
+    "start": 12,
+    "end": 12,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "600349e5804ceabd315b8fd07f06e529fe342142"
+  },
+  {
+    "file": "95140c31b29e6ccba8d776af9abf2bdc21cfac82.txt",
+    "sha256": "374a98c633f3e0cffab32f61521d78dae7e327a880595ad689c8b6ee15c12f30",
+    "rule": "generic-api-key",
+    "start": 13,
+    "end": 13,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "1bd8af0c84dc81177ffccbcbad5b4d2fdfc72121"
+  },
+  {
+    "file": "5e861399cb533d0305a9099a4b17ee717d3c50be.txt",
+    "sha256": "96419c4b82914dae69ab8d006ff6950197d6b5bc1035a388f397d1daff817236",
+    "rule": "generic-api-key",
+    "start": 6,
+    "end": 6,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "451111a2e010ee45f625b41f8a8404b500042ea3"
+  },
+  {
+    "file": "5e861399cb533d0305a9099a4b17ee717d3c50be.txt",
+    "sha256": "96419c4b82914dae69ab8d006ff6950197d6b5bc1035a388f397d1daff817236",
+    "rule": "generic-api-key",
+    "start": 9,
+    "end": 9,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "da27ea12cf6957b466a8c2db3e14fb7a3817a918"
+  },
+  {
+    "file": "5e861399cb533d0305a9099a4b17ee717d3c50be.txt",
+    "sha256": "96419c4b82914dae69ab8d006ff6950197d6b5bc1035a388f397d1daff817236",
+    "rule": "generic-api-key",
+    "start": 13,
+    "end": 13,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "3d033c96804339bc47da5765168b6b0353116607"
+  },
+  {
+    "file": "5e861399cb533d0305a9099a4b17ee717d3c50be.txt",
+    "sha256": "96419c4b82914dae69ab8d006ff6950197d6b5bc1035a388f397d1daff817236",
+    "rule": "generic-api-key",
+    "start": 14,
+    "end": 14,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "6b5cd11f0d061ce09cf90366a417eada92111ce2"
+  },
+  {
+    "file": "b21b3071f43c418371906b91e65f01de5fecd623.txt",
+    "sha256": "0fecc612d8bba1a1c4f1d079dcca12e53c6ae54ea1700f91adb1b3f6317bfb5d",
+    "rule": "generic-api-key",
+    "start": 5,
+    "end": 5,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "5f568492c0572967b80cc74cc1fb574a98db06f7"
+  },
+  {
+    "file": "b21b3071f43c418371906b91e65f01de5fecd623.txt",
+    "sha256": "0fecc612d8bba1a1c4f1d079dcca12e53c6ae54ea1700f91adb1b3f6317bfb5d",
+    "rule": "generic-api-key",
+    "start": 7,
+    "end": 7,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "2e8341c4c7adfc73810677885d13e482bc5dea32"
+  },
+  {
+    "file": "b21b3071f43c418371906b91e65f01de5fecd623.txt",
+    "sha256": "0fecc612d8bba1a1c4f1d079dcca12e53c6ae54ea1700f91adb1b3f6317bfb5d",
+    "rule": "generic-api-key",
+    "start": 11,
+    "end": 11,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "600349e5804ceabd315b8fd07f06e529fe342142"
+  },
+  {
+    "file": "b21b3071f43c418371906b91e65f01de5fecd623.txt",
+    "sha256": "0fecc612d8bba1a1c4f1d079dcca12e53c6ae54ea1700f91adb1b3f6317bfb5d",
+    "rule": "generic-api-key",
+    "start": 12,
+    "end": 12,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "9bf1179f5e0393e46b2fd40adf40909d03ff4f9b"
+  },
+  {
+    "file": "bc97666f34db7b54aa7813b100bd6497a3655afd.txt",
+    "sha256": "9bb5d4c55cd3ab4cc9b3f9bff78883bcc5eafe19d612ceb3a63cb7c557585b92",
+    "rule": "generic-api-key",
+    "start": 6,
+    "end": 6,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "5f568492c0572967b80cc74cc1fb574a98db06f7"
+  },
+  {
+    "file": "bc97666f34db7b54aa7813b100bd6497a3655afd.txt",
+    "sha256": "9bb5d4c55cd3ab4cc9b3f9bff78883bcc5eafe19d612ceb3a63cb7c557585b92",
+    "rule": "generic-api-key",
+    "start": 9,
+    "end": 9,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "2e8341c4c7adfc73810677885d13e482bc5dea32"
+  },
+  {
+    "file": "bc97666f34db7b54aa7813b100bd6497a3655afd.txt",
+    "sha256": "9bb5d4c55cd3ab4cc9b3f9bff78883bcc5eafe19d612ceb3a63cb7c557585b92",
+    "rule": "generic-api-key",
+    "start": 13,
+    "end": 13,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "600349e5804ceabd315b8fd07f06e529fe342142"
+  },
+  {
+    "file": "bc97666f34db7b54aa7813b100bd6497a3655afd.txt",
+    "sha256": "9bb5d4c55cd3ab4cc9b3f9bff78883bcc5eafe19d612ceb3a63cb7c557585b92",
+    "rule": "generic-api-key",
+    "start": 14,
+    "end": 14,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "6b5cd11f0d061ce09cf90366a417eada92111ce2"
+  },
+  {
+    "file": "c03a00cc069612fa564e1cee116c124719110235.txt",
+    "sha256": "c6b3ba32dc31b6926c7976c17f471cc8bcee65d7e56c6c30bfc8f9ead1212e4d",
+    "rule": "generic-api-key",
+    "start": 6,
+    "end": 6,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "5f568492c0572967b80cc74cc1fb574a98db06f7"
+  },
+  {
+    "file": "c03a00cc069612fa564e1cee116c124719110235.txt",
+    "sha256": "c6b3ba32dc31b6926c7976c17f471cc8bcee65d7e56c6c30bfc8f9ead1212e4d",
+    "rule": "generic-api-key",
+    "start": 8,
+    "end": 8,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "2e8341c4c7adfc73810677885d13e482bc5dea32"
+  },
+  {
+    "file": "c03a00cc069612fa564e1cee116c124719110235.txt",
+    "sha256": "c6b3ba32dc31b6926c7976c17f471cc8bcee65d7e56c6c30bfc8f9ead1212e4d",
+    "rule": "generic-api-key",
+    "start": 12,
+    "end": 12,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "600349e5804ceabd315b8fd07f06e529fe342142"
+  },
+  {
+    "file": "c03a00cc069612fa564e1cee116c124719110235.txt",
+    "sha256": "c6b3ba32dc31b6926c7976c17f471cc8bcee65d7e56c6c30bfc8f9ead1212e4d",
+    "rule": "generic-api-key",
+    "start": 13,
+    "end": 13,
+    "classification": "reachable-runtime-source-sha256",
+    "source_object": "6b5cd11f0d061ce09cf90366a417eada92111ce2"
+  }
+]
