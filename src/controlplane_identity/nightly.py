@@ -67,3 +67,10 @@ def derived_run(claims,tenant_id):
     if marker is None:return {}
     require(str(tenant_id)==_current.get()['binding']['scope']['tenant'])
     return {'nightly_run':copy.deepcopy(marker)}
+
+
+def current_binding():
+    context=_current.get()
+    if context is None:return None
+    require(not context['closed'])
+    return copy.deepcopy(context['binding'])
