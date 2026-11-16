@@ -415,7 +415,8 @@ to Actions. Results remain in job logs.
 Distribution preparation follows FyberLabs/infra#993: GHCR containers, moving
 TEST channels and nightly integration/e2e. This library has no standalone service
 entrypoint. Owner/dependency notices, reachable-history scanning and GHCR consumer-image
-preparation run in CI. Retained-image review and GHCR activation remain follow-ups. No source archives are bundled or downloaded for
+preparation run in CI. Retained GHCR versions are inventoried and inspected; qualified main builds
+publish to the moving `runtime:test` channel. No source archives are bundled or downloaded for
 redistribution. Versions, visibility and authentication behavior are unchanged.
 
 The [publication record](docs/publication/README.md) describes owner and dependency
