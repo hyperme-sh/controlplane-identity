@@ -11,6 +11,8 @@ jobs:
     runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted", "linux", "x64", "debrunner"]') || 'ubuntu-24.04' }}
     timeout-minutes: 15
     steps:
+      - name: Prepare build-local package output
+        run: echo "RELEASE_ARTIFACT_DIR=$(mktemp -d "$RUNNER_TEMP/identity-dist.XXXXXX")" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
@@ -20,4 +22,16 @@ jobs:
           version: '0.11.26'
           python-version: '3.13'
       - name: Qualify public dependencies without inherited credentials
-        run: bash scripts/anonymous-command.sh bash scripts/check-package.sh
+        run: >-
+          bash scripts/anonymous-command.sh env
+          RELEASE_ARTIFACT_DIR="$RELEASE_ARTIFACT_DIR" bash scripts/check-package.sh
+      - name: Prepare and inspect GHCR consumer image
+        run: >-
+          bash scripts/anonymous-command.sh env
+          QUALIFIED_DIST_DIR="$RELEASE_ARTIFACT_DIR"
+          GITHUB_SHA="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID"
+          GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT"
+          bash scripts/check-container.sh
+      - name: Remove build-local package output
+        if: always()
+        run: rm -rf -- "$RELEASE_ARTIFACT_DIR"
