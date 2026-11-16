@@ -79,3 +79,28 @@ single value or an explicit sequence. Consumers supply only the tokens for their
 own trust boundary; unrelated internal credentials are never added implicitly.
 Remove the previous values after the deployment overlap and token lifetime.
 This code change preserves the package version; it does not publish a release.
+
+## Original TEST run tokens
+
+`nightly.configure_subjects` configures declared fixture subjects at owner startup.
+`nightly.admitted_run` accepts only the binding returned after an owner's durable
+admission. It is a context guard, not an admission service. The owner must await
+native completion and retain unknown work. Derived tenant tokens preserve the
+original `nightly_run` marker. Native Keycloak, tenant, host-setup and API-key
+verifiers refuse bound tokens outside that context, including offline Gateway
+verification. A managed legacy subject cannot substitute an unbound token.
+Unrelated unbound credentials retain their existing checks.
+
+The context is invalidated on exit, including inherited async tasks. New grants
+cannot relabel old claims or change their native tenant. Consumers must install
+the durable request adapter before accepting bound tokens. Missing adoption fails
+closed; this module does not independently certify controller terminal release.
+
+`nightly_http.Authority` implements the bounded raw-body owner-HMAC registry
+transport for Python serving owners. `RunMiddleware` admits only a server-defined
+method/path allowlist, surrounds the native transaction middleware, buffers the
+bounded response and completes after native return. Errors retain pending work.
+Its separately keyed control path accepts only register/status/seal/retire.
+Configuration is restricted to canonical TEST API origins. Native handlers must
+check the bound tenant/subject and pass the current-context guard to any worker
+that may outlive a cancelled request. The adapter does not certify detached jobs.

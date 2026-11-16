@@ -11,6 +11,7 @@ from jwt import InvalidTokenError, PyJWKClient
 from jwt.exceptions import PyJWKClientConnectionError
 
 from controlplane_identity.account_lifecycle import require_open_account
+from controlplane_identity.nightly import require_original_run
 from controlplane_identity.configuration import settings
 
 logger = logging.getLogger(__name__)
@@ -91,6 +92,7 @@ class KeycloakJWTValidator:
         if azp in _INTERACTIVE_AGE_CLIENTS and not _age_confirmation_satisfied(payload):
             raise InvalidTokenError("age confirmation required")
         require_open_account(payload)
+        require_original_run(payload)
         return payload
 
     def validate_closure_operator_sync(
@@ -128,6 +130,7 @@ class KeycloakJWTValidator:
         if azp in _INTERACTIVE_AGE_CLIENTS and not _age_confirmation_satisfied(payload):
             raise InvalidTokenError("age confirmation required")
         require_open_account(payload)
+        require_original_run(payload)
         return payload
 
     async def validate_closure_operator(
@@ -146,6 +149,7 @@ class KeycloakJWTValidator:
         if payload.get("azp") != "hypermesh-host-setup" or not payload.get("sub"):
             raise InvalidTokenError("host setup client required")
         require_open_account(payload)
+        require_original_run(payload)
         return payload
 
     async def validate_host_setup(self, token: str) -> dict[str, object]:
