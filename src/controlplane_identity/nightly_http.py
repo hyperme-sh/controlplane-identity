@@ -18,7 +18,7 @@ def configuration(value,owner):
     fields(value,'version owner origin authOrigin ownerKey controllerKey scopes')
     require(type(value['version']) is int and value['version']==1 and value['owner']==owner and owner in OWNERS)
     require(value['origin']=='https://api.test.hyperme.sh' and value['authOrigin']=='https://api.test.hyperme.sh')
-    require(all(isinstance(value[k],str) and HEX.fullmatch(value[k]) for k in ('ownerKey','controllerKey'))
+    require(all(isinstance(value[k],str) and HEX.fullmatch(value[k]) for k in ('ownerKey','controllerKey')))
     require(value['ownerKey']!=value['controllerKey'])
     require(type(value['scopes']) is dict and 0<len(value['scopes'])<=5)
     for suite,scope in value['scopes'].items():
