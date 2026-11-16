@@ -21,3 +21,10 @@ exact bytes and scanner coordinates; no history is rewritten.
 
 GHCR uses moving TEST channels when activated. Integration/e2e remains nightly.
 No Actions uploads, visibility changes or manual releases are introduced.
+
+Initial CI reviewed 348 reachable commit/tag/blob objects with zero hosted-content
+matches. Its 24 secret-scanner matches were runtime source hashes in historical
+contract manifests, each verified against a reachable source blob. Exceptions
+bind exact exported bytes, scanner rule and line coordinates. No broad path
+exceptions were added. The image retains legal texts for 38 installed
+distributions; owner and dependency notices are checked in the final image.
