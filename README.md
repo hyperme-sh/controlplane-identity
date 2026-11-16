@@ -417,3 +417,6 @@ TEST channels and nightly integration/e2e. This library has no standalone servic
 entrypoint. Owner/dependency notices, history/image review and GHCR consumer-image
 preparation remain follow-ups. No source archives are bundled or downloaded for
 redistribution. Versions, visibility and authentication behavior are unchanged.
+
+The [publication record](docs/publication/README.md) describes owner and dependency
+notices, the prepared GHCR consumer image, and reachable-history checks.
