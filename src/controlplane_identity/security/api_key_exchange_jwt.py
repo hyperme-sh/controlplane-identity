@@ -10,6 +10,7 @@ import jwt
 from jwt import InvalidTokenError
 
 from controlplane_identity.configuration import settings, api_key_exchange_secrets
+from controlplane_identity.nightly import require_original_run
 
 ISSUER = "https://spanopticon.internal/api-key"
 ALG = "HS256"
@@ -67,4 +68,6 @@ def try_decode_api_key_session_jwt(token: str) -> dict[str, Any] | None:
         return None
     if payload.get("spanopticon_auth") != "api_key":
         return None
+    try:require_original_run(payload)
+    except InvalidTokenError:return None
     return payload

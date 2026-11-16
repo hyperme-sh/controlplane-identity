@@ -15,6 +15,7 @@ import jwt
 from jwt import InvalidTokenError
 
 from controlplane_identity.account_lifecycle import require_open_account
+from controlplane_identity.nightly import require_original_run, derived_run
 from controlplane_identity.configuration import LEGACY_SMOKE_SESSION_CLAIM, settings, api_key_exchange_secrets
 
 ISSUER = "https://spanopticon.internal/tenant-session"
@@ -63,7 +64,9 @@ def mint_tenant_session_jwt(
     else:
         groups_out = []
 
+    run_claim = derived_run(claims,tenant_id)
     payload: dict[str, Any] = {
+        **run_claim,
         "sub": str(claims.get("sub") or ""),
         "iss": ISSUER,
         "azp": str(claims.get("azp") or "controlplane-frontend"),
@@ -136,6 +139,7 @@ def try_decode_tenant_session_jwt(token: str) -> dict[str, Any] | None:
         return None
     try:
         require_open_account(payload)
+        require_original_run(payload)
     except InvalidTokenError:
         return None
     return payload
@@ -152,8 +156,10 @@ def mint_host_setup_session(*, claims: dict[str, Any], tenant_id: uuid.UUID) -> 
     secret = next(iter(api_key_exchange_secrets()), None)
     if not secret:
         raise RuntimeError("host setup signing key unavailable")
+    run_claim = derived_run(claims,tenant_id)
     now = int(time.time())
     return jwt.encode({
+        **run_claim,
         "iss": HOST_SETUP_ISSUER, "aud": HOST_SETUP_AUDIENCE,
         "azp": HOST_SETUP_AUDIENCE, "purpose": "host_setup",
         "sub": str(claims["sub"]), "email": str(claims.get("email") or ""),
@@ -180,6 +186,7 @@ def try_decode_host_setup_session(token: str) -> dict[str, Any] | None:
         return None
     try:
         require_open_account(payload)
+        require_original_run(payload)
     except InvalidTokenError:
         return None
     return payload
