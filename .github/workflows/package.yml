@@ -11,23 +11,13 @@ jobs:
     runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted", "linux", "x64", "debrunner"]') || 'ubuntu-24.04' }}
     timeout-minutes: 15
     steps:
-      - name: Prepare release output
-        run: echo "RELEASE_ARTIFACT_DIR=$(mktemp -d "$RUNNER_TEMP/release-dist.XXXXXX")" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
+          enable-cache: false
           version: '0.11.26'
           python-version: '3.13'
-      - run: bash scripts/check-package.sh
-        env:
-          TEST_EVIDENCE_DIR: ${{ runner.temp }}/identity-test-results
-      # GitHub checks action allowlists even when this main-only upload is skipped.
-      - name: Retain executed test identities
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: test-results
-          path: ${{ runner.temp }}/identity-test-results/*.xml
-          if-no-files-found: error
-          retention-days: 90
+      - name: Qualify public dependencies without inherited credentials
+        run: bash scripts/anonymous-command.sh bash scripts/check-package.sh

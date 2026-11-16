@@ -403,3 +403,17 @@ and object IDs, never email or token roles. Raw Entra ID tokens use
 possession of the configured SEA key, grants roles, or provisions a person.
 Owners must reject unsupported tenant scopes before writes and read explicit
 organization roles and each platform/Keycloak admin flag independently.
+
+## Publication preparation
+
+PR and main package qualification use fresh home, cache and project environments
+without inherited Git or registry credentials. The frozen dependencies must be
+available from public registries. Source, installed-wheel and rebuilt-source
+checks remain internal validation; CI does not upload packages or test reports
+to Actions. Results remain in job logs.
+
+Distribution preparation follows FyberLabs/infra#993: GHCR containers, moving
+TEST channels and nightly integration/e2e. This library has no standalone service
+entrypoint. Owner/dependency notices, history/image review and GHCR consumer-image
+preparation remain follow-ups. No source archives are bundled or downloaded for
+redistribution. Versions, visibility and authentication behavior are unchanged.
