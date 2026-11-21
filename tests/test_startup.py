@@ -176,3 +176,30 @@ def test_canonical_binding_rejects_ambiguous_keys_and_scopes():
     variants.append(doc)
     for doc in variants:
         with pytest.raises(InvalidBinding): canonical_binding(json.dumps(doc).encode())
+
+
+def test_synthetic_oidc_binding_requires_the_test_issuer_and_immutable_subject():
+    config = mapping()
+    upstream = '76259cb6-a67f-5d78-83ec-8f1cabc0eb44'
+    subject = '794162c8-c946-59c5-8850-004b0dbe6e18'
+    config['binding'].pop('entra')
+    config['binding'].update(version=2, oidc={
+        'issuer': 'https://auth.test.hyperme.sh/realms/startup-nightly',
+        'subject': upstream, 'broker': 'startup-nightly', 'broker_subject': subject,
+    }, keycloak_admin={'realm': 'controlplane', 'enabled': False})
+    config['binding_sha256'] = binding_fingerprint(config['binding'])
+    config['owner'].update(network_id='hyperme.sh', profile={'email': 'owner@startup-nightly.invalid'})
+    config['owner']['broker'] = {'issuer': 'https://auth.test.hyperme.sh/realms/controlplane', 'audience': 'startup-client'}
+    assert validate(config) == config
+    token = {'iss': config['owner']['broker']['issuer'], 'aud': 'startup-client', 'azp': 'startup-client',
+             'sub': subject, 'login_provider': 'startup-nightly', 'email': 'owner@startup-nightly.invalid'}
+    assert verify_claims(config, token) == subject
+    for change in ({'sub': upstream}, {'sub': 'different-same-email-subject'}, {'login_provider': 'github'},
+                   {'azp': None}, {'purpose': 'session'}):
+        with pytest.raises(InvalidBinding):
+            verify_claims(config, token | change)
+    for issuer in ('https://auth.hyperme.sh/realms/controlplane', 'https://unrelated.test.example/realms/controlplane'):
+        wrong = copy.deepcopy(config)
+        wrong['owner']['broker']['issuer'] = issuer
+        with pytest.raises(InvalidBinding):
+            validate(wrong)

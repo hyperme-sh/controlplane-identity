@@ -2,6 +2,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 unset PYTHONPATH UV_NO_SYNC
+if (( $# > 1 )) || [[ ${1:-} != "" && ${1:-} != "--verify-candidate" ]]; then
+  echo 'Usage: bash scripts/check-package.sh [--verify-candidate]' >&2
+  exit 2
+fi
 uv lock --check
 uv sync --frozen
 scratch=$(mktemp -d)
@@ -12,11 +16,13 @@ uv build --out-dir "$scratch/dist"
 uv run --frozen python scripts/verify_wheel.py "$scratch/dist"
 uv run --frozen python scripts/export_release_contract.py "$scratch"/dist/*.whl --output "$scratch/contract"
 sha256sum "$scratch"/dist/*.whl
-for qualified_manifest in releases/qualification/current/release.json releases/candidate/release.json; do
-if [[ -f "$qualified_manifest" ]]; then
-  uv run --frozen python scripts/verify_release_candidate.py "$qualified_manifest" "$scratch/contract/contract.json" "$scratch/contract/evidence.json" controlplane-identity
+if [[ ${1:-} == --verify-candidate ]]; then
+  for qualified_manifest in releases/qualification/current/release.json releases/candidate/release.json; do
+    if [[ -f "$qualified_manifest" ]]; then
+      uv run --frozen python scripts/verify_release_candidate.py "$qualified_manifest"         "$scratch/contract/contract.json" "$scratch/contract/evidence.json" controlplane-identity
+    fi
+  done
 fi
-done
 uv export --frozen --no-emit-project --format requirements-txt --output-file "$scratch/requirements.txt" >/dev/null
 uv venv --python 3.13 "$scratch/venv"
 uv pip sync --python "$scratch/venv/bin/python" "$scratch/requirements.txt"

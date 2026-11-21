@@ -398,7 +398,9 @@ file owned by the process, without symlinks or additional hard links.
 
 `verify_claims` selects the configured account from already verified Keycloak
 broker claims. It uses the configured broker alias and immutable Entra tenant
-and object IDs, never email or token roles. Raw Entra ID tokens use
+and object IDs, never email or token roles. The version 2 binding for the dedicated
+TEST OIDC issuer instead requires the configured canonical broker subject and client.
+Raw Entra ID tokens use
 `EntraAccountBinding` instead. Neither matcher authenticates a token, proves
 possession of the configured SEA key, grants roles, or provisions a person.
 Owners must reject unsupported tenant scopes before writes and read explicit
@@ -409,7 +411,8 @@ organization roles and each platform/Keycloak admin flag independently.
 PR and main package qualification use fresh home, cache and project environments
 without inherited Git or registry credentials. The frozen dependencies must be
 available from public registries. Source, installed-wheel and rebuilt-source
-checks remain internal validation; CI does not upload packages or test reports
+checks validate each current build. Use `bash scripts/check-package.sh --verify-candidate`
+to also compare the build against the historical release candidate; CI does not upload packages or test reports
 to Actions. Results remain in job logs.
 
 Distribution preparation follows FyberLabs/infra#993: GHCR containers, moving
