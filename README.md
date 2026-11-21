@@ -411,7 +411,8 @@ organization roles and each platform/Keycloak admin flag independently.
 PR and main package qualification use fresh home, cache and project environments
 without inherited Git or registry credentials. The frozen dependencies must be
 available from public registries. Source, installed-wheel and rebuilt-source
-checks remain internal validation; CI does not upload packages or test reports
+checks validate each current build. Use `bash scripts/check-package.sh --verify-candidate`
+to also compare the build against the historical release candidate; CI does not upload packages or test reports
 to Actions. Results remain in job logs.
 
 Distribution preparation follows FyberLabs/infra#993: GHCR containers, moving
