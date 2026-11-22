@@ -203,3 +203,24 @@ def test_synthetic_oidc_binding_requires_the_test_issuer_and_immutable_subject()
         wrong['owner']['broker']['issuer'] = issuer
         with pytest.raises(InvalidBinding):
             validate(wrong)
+
+
+def test_first_production_owner_is_limited_to_fyberlabs():
+    config = mapping()
+    binding = config['binding']
+    binding['organizations'] = {'fyberlabs': {**binding['organizations']['fyberlabs'], 'roles': ['owner']}}
+    binding['platform_admin'] = {'spanopticon': False, 'hyperme.sh': False}
+    binding['keycloak_admin'] = {'realm': 'controlplane', 'enabled': False}
+    config['owner']['broker'] = {'issuer': 'https://auth.hyperme.sh/realms/controlplane',
+                                 'audience': 'controlplane-frontend'}
+    config['owner']['network_id'] = 'hyperme.sh'
+    config['binding_sha256'] = binding_fingerprint(binding)
+    assert validate(config) == config
+
+    test_issuer = copy.deepcopy(config)
+    test_issuer['owner']['broker']['issuer'] = 'https://auth.test.hyperme.sh/realms/controlplane'
+    with pytest.raises(InvalidBinding):
+        validate(test_issuer)
+    binding['platform_admin']['hyperme.sh'] = True
+    with pytest.raises(InvalidBinding):
+        binding_fingerprint(binding)
